@@ -1,6 +1,6 @@
 > **Repositori PRIVAT tim.** Berisi seluruh hasil untuk dianalisis: semua CSV eksperimen (`results/modal/`, termasuk
 > ronde 8 di `results/modal/r8/`), galeri, generator gambar/dashboard/paper, draf paper (PDF + DOCX di `paper/`), dan catatan
-> eksperimen lengkap (`docs/RECAP.md`). Versi publik: repositori metodologi dan repositori dashboard.
+> eksperimen lengkap (`docs/RECAP.md`). Versi publik: [metodologi](https://github.com/elzaff/cross-model-residual-erasure-clustering-bdc-ewaste) dan [dashboard](https://elzaff.github.io/cross-model-residual-erasure-clustering-bdc-ewaste-dashboard/).
 
 # Unsupervised Discovery Kategori Sampah Elektronik dari Citra Multi-Sumber
 
