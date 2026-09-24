@@ -1,0 +1,17 @@
+cluster,n,test_n,agree3,white_bg,thumb,unlabeled,top_bdc,ext,giz_n,giz_ood
+0,115,16,0.94,0.38,0.48,0.62,"{'battery': 0.86, 'pcb': 0.07, 'keyboard': 0.05}","{'battery': 105, 'light_bulb': 30, 'pcb': 3}",323,163
+1,70,9,0.0,0.94,0.99,0.14,{'battery': 1.0},{'battery': 226},0,0
+2,111,4,0.0,0.57,0.97,0.06,{'player': 1.0},{'player': 90},0,0
+3,174,0,0.67,0.16,0.47,0.54,"{'television': 0.99, 'player': 0.01}","{'television': 64, 'microwave': 1}",143,44
+4,136,16,0.53,0.9,0.99,0.13,"{'battery': 0.99, 'mouse': 0.01}","{'battery': 455, 'pcb': 3, 'light_bulb': 1}",0,0
+5,153,13,0.95,0.81,0.97,0.12,"{'player': 0.98, 'microwave': 0.01, 'washing_machine': 0.01}","{'player': 92, 'washing_machine': 2, 'microwave': 1}",0,0
+6,115,0,0.93,0.73,0.97,0.03,{'washing_machine': 1.0},{'washing_machine': 48},16,11
+7,263,1,0.49,0.31,0.67,0.33,"{'television': 0.99, 'player': 0.01}",{'television': 100},3,1
+8,192,0,0.97,0.63,0.96,0.04,{'washing_machine': 1.0},{'washing_machine': 125},2,0
+9,277,16,0.93,0.11,0.03,0.97,{'keyboard': 1.0},"{'keyboard': 13, 'television': 1}",20,2
+10,320,20,0.83,0.38,0.74,0.32,{'keyboard': 1.0},"{'keyboard': 255, 'television': 1}",0,0
+11,275,23,1.0,0.49,1.0,0.08,{'microwave': 1.0},{'microwave': 181},44,12
+12,294,12,0.99,0.42,0.98,0.06,"{'printer': 1.0, 'keyboard': 0.0}",{'printer': 166},7,5
+13,291,12,0.99,0.35,0.73,0.32,{'mouse': 1.0},{'mouse': 227},0,0
+14,366,8,0.99,0.05,0.41,0.6,"{'mobile': 0.99, 'keyboard': 0.01}",{'mobile': 272},0,0
+15,640,38,0.57,0.14,0.4,0.66,"{'pcb': 0.98, 'upload': 0.01, 'mobile': 0.0}",{'pcb': 307},442,187

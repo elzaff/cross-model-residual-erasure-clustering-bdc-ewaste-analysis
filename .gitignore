@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.ruff_cache/
+.env
+# raw images and model caches are never committed
+data/*
+!data/build_manifest.py
+emb_cache/
+~$*
+# competition labels must never enter the repo
+**/GT*.csv
+**/gt.csv
+**/inshallah_groundtruth.csv
+# regenerated locally by code/make_figures.py
+paper_draft/

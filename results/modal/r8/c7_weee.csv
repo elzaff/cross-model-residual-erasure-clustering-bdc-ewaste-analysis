@@ -1,0 +1,6 @@
+test,obs,null_mean,p
+jarak centroid intra-grup (makin kecil makin rapat),1.1608491512329826,1.1631023171202202,0.46414
+silhouette 6 grup WEEE pada citra D_main,0.17801602184772491,0.14365585921704768,0.01
+"ARI(pengelompokan Ward 16 centroid jadi 6, WEEE)",0.15217391304347827,-0.0004413043478260864,0.08935
+"Iliev: kategori EU-6 crop = kategori grup klasternya (semua, n=1513)",0.364177131526768,0.18564755452742893,0.0589
+"Iliev: kategori EU-6 crop = kategori grup klasternya (in-distribution kNN, n=463)",0.7926565874730022,0.18972267818574515,0.0

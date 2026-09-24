@@ -1,0 +1,6 @@
+cls,kaan_cluster,n,n_fail,wrong_clusters
+battery,Baterai ponsel/kamera,87,7,Aki:7
+keyboard,Keyboard,79,0,
+mobile,Ponsel,104,2,Aki:1; Baterai ponsel/kamera:1
+mouse,Mouse,50,0,
+pcb,PCB/campuran,129,3,Baterai ponsel/kamera:3

@@ -1,0 +1,13 @@
+step,sec,cpu,n_main
+usulan v4: fitur (CMRE/INLP/fusi),0.8591439620000001,32,3792
+usulan v4: PCA-32 + klaster + proyeksi,0.17662430299999876,32,3792
+fusi mentah: fitur (CMRE/INLP/fusi),0.17124356999999968,32,3792
+fusi mentah: PCA-32 + klaster + proyeksi,0.4741282800000004,32,3792
+DINOv3-H+ saja: fitur (CMRE/INLP/fusi),0.0003285640000001422,32,3792
+DINOv3-H+ saja: PCA-32 + klaster + proyeksi,0.3624997170000004,32,3792
+INLP x3: fitur (CMRE/INLP/fusi),7.549586782,32,3792
+INLP x3: PCA-32 + klaster + proyeksi,0.43445119000000076,32,3792
+ringan CMRE(pe)+dino: fitur (CMRE/INLP/fusi),0.4680661179999994,32,3792
+ringan CMRE(pe)+dino: PCA-32 + klaster + proyeksi,0.42296309700000023,32,3792
+usulan v4: Spectral-kNN K=16 pada D_main,0.15513497799999953,32,3792
+kNN-OOD: fit + skor D_main + skor Iliev,0.05159958699999834,32,3792

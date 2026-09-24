@@ -1,0 +1,17 @@
+cluster,n_iliev_in,eu6_top,eu6_share,classes
+0,483,5,0.4575569358178054,"Compact-Fluorescent-Lamps:30, Electric-Bicycle:30, LED-Bulb:30, Pulse-Oximeter:30"
+1,0,,,
+2,21,5,1.0,"Electric-Guitar:15, Headphone:5, Electronic-Keyboard:1"
+3,26,2,1.0,"CRT-TV:20, Flat-Panel-TV:5, CRT-Monitor:1"
+4,68,baterai,0.4411764705882353,"Battery:30, USB-Flash-Drive:20, Flashlight:8, HDD:5"
+5,28,5,0.7857142857142857,"Headphone:8, Projector:6, Music-Player:4, TV-Remote-Control:4"
+6,14,1,0.9285714285714286,"Freezer:13, Washing-Machine:1"
+7,66,2,0.9545454545454546,"Flat-Panel-Monitor:29, Flat-Panel-TV:24, CRT-TV:9, PlayStation-5:2"
+8,53,4,0.9433962264150944,"Washing-Machine:29, Dishwasher:18, Clothes-Iron:3, Tumble-Dryer:3"
+9,29,2,1.0,"Laptop:28, Flat-Panel-Monitor:1"
+10,30,6,1.0,Computer-Keyboard:30
+11,68,4,0.47058823529411764,"Microwave:30, Oven:27, Refrigerator:3, Air-Conditioner:2"
+12,23,6,0.6521739130434783,"Printer:15, Electrocardiograph-Machine:6, Dehumidifier:1, Projector:1"
+13,30,6,1.0,Computer-Mouse:30
+14,55,6,0.7090909090909091,"Smartphone:30, Music-Player:13, Bar-Phone:9, Tablet:3"
+15,41,komponen,0.7317073170731707,"PCB:30, SSD:6, HDD:2, Digital-Oscilloscope:1"

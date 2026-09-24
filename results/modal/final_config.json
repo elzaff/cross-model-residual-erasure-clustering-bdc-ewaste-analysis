@@ -1,0 +1,13 @@
+{
+ "rep": "SigLIP2-So400m \u2295 DINOv3-H+",
+ "parts": [
+  "SigLIP2-So400m",
+  "DINOv3-H+"
+ ],
+ "K": 16,
+ "method": "K-Means",
+ "inlp_iters": {
+  "SigLIP2-So400m": 2,
+  "DINOv3-H+": 2
+ }
+}

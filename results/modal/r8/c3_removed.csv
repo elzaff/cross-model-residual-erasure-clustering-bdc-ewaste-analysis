@@ -1,0 +1,61 @@
+backbone,what,value
+SigLIP2,energi dibuang (mean ||proj||^2),0.5057089924812317
+SigLIP2,spearman PC1 vs border_white,0.2937181623681448
+SigLIP2,spearman PC1 vs border_std,-0.12967073022124476
+SigLIP2,spearman PC1 vs colorfulness,-0.21291288493152957
+SigLIP2,spearman PC1 vs log_sisi,-0.39211143134764925
+SigLIP2,spearman PC2 vs border_white,-0.09907162902851312
+SigLIP2,spearman PC2 vs border_std,0.03877397084374278
+SigLIP2,spearman PC2 vs colorfulness,0.1343713329315182
+SigLIP2,spearman PC2 vs log_sisi,-0.365641319533611
+SigLIP2,spearman PC3 vs border_white,0.1897241863282484
+SigLIP2,spearman PC3 vs border_std,0.10255064986332908
+SigLIP2,spearman PC3 vs colorfulness,-0.25671631540324513
+SigLIP2,spearman PC3 vs log_sisi,0.09145276665101937
+SigLIP2,spearman PC4 vs border_white,-0.38721526313682864
+SigLIP2,spearman PC4 vs border_std,0.07821395946746999
+SigLIP2,spearman PC4 vs colorfulness,0.22566081536676297
+SigLIP2,spearman PC4 vs log_sisi,0.4220505860801048
+SigLIP2,spearman PC5 vs border_white,-0.17054388504647874
+SigLIP2,spearman PC5 vs border_std,0.13004604672092054
+SigLIP2,spearman PC5 vs colorfulness,0.059127121112319464
+SigLIP2,spearman PC5 vs log_sisi,0.14982863258486784
+SigLIP2,probe gaya 6 grup | mentah,0.7039388463270879
+SigLIP2,probe gaya 6 grup | bagian dibuang (64 dim),0.6819405101177711
+SigLIP2,probe gaya 6 grup | bagian disimpan,0.616562728340119
+SigLIP2,probe objek BDC | mentah,0.9902440945908323
+SigLIP2,probe objek BDC | bagian dibuang (64 dim),0.9669125695110952
+SigLIP2,probe objek BDC | bagian disimpan,0.9896130311403072
+SigLIP2,probe sumber Kaan vs Bangladesh | mentah,1.0
+SigLIP2,probe sumber Kaan vs Bangladesh | bagian dibuang (64 dim),1.0
+SigLIP2,probe sumber Kaan vs Bangladesh | bagian disimpan,0.9582582582582584
+PE-Core-G,energi dibuang (mean ||proj||^2),0.452120840549469
+PE-Core-G,spearman PC1 vs border_white,-0.13396907368710853
+PE-Core-G,spearman PC1 vs border_std,-0.06418289622120914
+PE-Core-G,spearman PC1 vs colorfulness,-0.13616034555485648
+PE-Core-G,spearman PC1 vs log_sisi,-0.25861348511786464
+PE-Core-G,spearman PC2 vs border_white,0.18171412218125066
+PE-Core-G,spearman PC2 vs border_std,-0.18037678932064222
+PE-Core-G,spearman PC2 vs colorfulness,-0.251948415817358
+PE-Core-G,spearman PC2 vs log_sisi,0.20263818471021916
+PE-Core-G,spearman PC3 vs border_white,0.31879533266634125
+PE-Core-G,spearman PC3 vs border_std,-0.2133962647860677
+PE-Core-G,spearman PC3 vs colorfulness,-0.29732733213102536
+PE-Core-G,spearman PC3 vs log_sisi,-0.678527045236141
+PE-Core-G,spearman PC4 vs border_white,-0.21702595948603598
+PE-Core-G,spearman PC4 vs border_std,-0.00635012120966731
+PE-Core-G,spearman PC4 vs colorfulness,0.06398180227102096
+PE-Core-G,spearman PC4 vs log_sisi,0.165593381126167
+PE-Core-G,spearman PC5 vs border_white,-0.10641459557396399
+PE-Core-G,spearman PC5 vs border_std,0.035110579705933065
+PE-Core-G,spearman PC5 vs colorfulness,0.1438388485672237
+PE-Core-G,spearman PC5 vs log_sisi,0.3407738808617908
+PE-Core-G,probe gaya 6 grup | mentah,0.734958197776625
+PE-Core-G,probe gaya 6 grup | bagian dibuang (64 dim),0.6836317866143766
+PE-Core-G,probe gaya 6 grup | bagian disimpan,0.6177244924134502
+PE-Core-G,probe objek BDC | mentah,0.9962234783149402
+PE-Core-G,probe objek BDC | bagian dibuang (64 dim),0.9748899368140804
+PE-Core-G,probe objek BDC | bagian disimpan,0.9778299261000809
+PE-Core-G,probe sumber Kaan vs Bangladesh | mentah,0.9972914218566393
+PE-Core-G,probe sumber Kaan vs Bangladesh | bagian dibuang (64 dim),0.9853525264394829
+PE-Core-G,probe sumber Kaan vs Bangladesh | bagian disimpan,0.9913513513513514

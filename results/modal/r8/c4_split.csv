@@ -1,0 +1,17 @@
+k16,nama16,induk13,induk13_label,porsi
+0,Aki,4,baterai,0.67
+1,Baterai laptop,0,baterai,1.0
+2,Turntable,5,pemutar,1.0
+3,TV CRT,6,televisi,1.0
+4,Baterai ponsel/kamera,4,baterai,1.0
+5,Pemutar CD/radio,5,pemutar,1.0
+6,Mesin cuci atas,1,mesin cuci,1.0
+7,TV layar datar,6,televisi,0.795
+8,Mesin cuci depan,2,mesin cuci,0.995
+9,Laptop,3,keyboard,1.0
+10,Keyboard,9,keyboard,0.997
+11,Microwave,7,microwave,1.0
+12,Printer,8,printer,1.0
+13,Mouse,10,mouse,1.0
+14,Ponsel,11,ponsel,1.0
+15,PCB/campuran,12,PCB,0.967
