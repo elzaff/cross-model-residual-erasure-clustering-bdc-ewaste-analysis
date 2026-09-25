@@ -3,8 +3,6 @@ __pycache__/
 .ruff_cache/
 .env
 # raw images and model caches are never committed
-data/*
-!data/build_manifest.py
 emb_cache/
 ~$*
 # competition labels must never enter the repo

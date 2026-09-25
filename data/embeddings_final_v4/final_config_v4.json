@@ -1,0 +1,7 @@
+{
+ "rep": "CMRE(SigLIP2-So400m|DINOv3-H+) + CMRE(PE-Core-G|DINOv3-H+) + DINOv3-H+",
+ "K": 16,
+ "method": "Spectral-kNN",
+ "r_siglip2": 65,
+ "r_pecore": 65
+}
