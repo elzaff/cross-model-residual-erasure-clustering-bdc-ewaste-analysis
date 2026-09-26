@@ -12,6 +12,7 @@ File ini untuk melanjutkan di chat baru. Baca bagian 0 dan 9 dulu.
   - NMI objek eksternal 0,890 [0,877–0,902]
   - stabilitas antar-seed 1,00; konsensus 3 algoritma 76,1%; OOD GIZ 44,1%
 - **UPDATE 23 Sep (ronde 5, lihat bagian 3 poin 10):** SCMax 9 seed memberi median **K=16**, jadi kandidat final sekarang v4 (`final_v4/`, xsrc 0,975). Baseline DINOv3 saja 0,776. Aturan r sebenarnya r=64. CMRE tidak menghapus informasi sumber, hanya mengurangi dominasinya.
+- **AUDIT 27 Sep:** daftar K per seed dan ringkasan 100 seed SCMax sebelum audit telah diganti pada `results/modal/scmax_100_source_audit_report.md`; sembilan seed tetap memberi median K=16, sedangkan 100 seed memberi median 16,5. Nilai 3-seed di bagian kronologi bawah adalah catatan historis, bukan hasil audit terakhir. Audit kode dan DIVIDE ada di `results/classic/author_code_audit.md`.
 - **PAPER FINAL (24 Sep): `paper_draft/Karya_Ilmiah_BDC2026.docx` + `.pdf`** (template resmi, 22 halaman termasuk sampul, 7 gambar, 5 tabel, 6 persamaan, abstrak 242 kata). Dibangun ulang dengan `python code/make_figures.py && python code/build_paper.py`. Masih perlu diisi user: **tautan repositori** (Lampiran) dan **verifikasi ID kelompok** (dipakai SD2026040000100 dari nama file submission penyisihan).
 - Paper lama (`paper_draft/karya_ilmiah_draft_v2.*`) sudah usang. Isinya masih pipeline lama (INLP, K=16, konsistensi 0,945).
 - **Dokumen diskusi untuk teman** (artifact): https://claude.ai/artifact/R1wZBCXYPV4PiBoXnDqBov. Isinya belum mencakup kontrol data, SCMax, dan final v3.
@@ -71,7 +72,7 @@ File ini untuk melanjutkan di chat baru. Baca bagian 0 dan 9 dulu.
    - **Probe:** probe linear supervised bisa menebak sumber (Kaan vs Bangladesh) dengan akurasi sekitar 0,99 di SEMUA representasi, termasuk CMRE dan INLP. **CMRE tidak menghapus informasi sumber.** Yang dilakukannya: transfer objek Kaan→Bangladesh naik (PCA-32: fusi 0,944 → 0,983; PE 0,946 → 0,992), dan homofili sumber kNN turun sedikit (fusi 0,996 → 0,964; tingkat acak 0,56). Klaim yang benar: dominasi sumber berkurang relatif terhadap pemisahan objek, sehingga partisi tingkat kelas tidak bergantung pada sumber.
    - **Anjloknya n_neighbors ≥ 20 (0,83–0,85) hanya terjadi di kelas baterai.** Metrik lenient (cluster mayoritas label BDC = kelasnya) memberi 0,969–0,985 di semua nn. Foto baterai Bangladesh masuk ke cluster *baterai lain*, jadi ini pecahan subtipe, bukan salah objek. Apakah itu subtipe atau gaya harus dicek di galeri.
    - **Stabilitas bootstrap K** 10–20 berada di 0,86–0,94 (K=13: 0,906). Tidak ada K yang menonjol.
-   - **SCMax 9 seed:** K = 13, 16, 13, 16, 19, 16, 15, 19, 19 → **median 16**. Median 13 sebelumnya hanya kebetulan dari 3 seed. Hibrida: K 13/15/16 → 0,975–0,978; K=19 → 0,794 (baterai).
+   - **Audit ulang SCMax 9 seed** dengan pengaturan seed kode penulis: K = 13, 17, 16, 16, 19, 16, 15, 19, 19 → **median 16**. Hasil 100 seed memberi median 16,5; perincian ada di `results/modal/scmax_100_source_audit_report.md`. Hibrida: K 13/15/16 → 0,975–0,978; K=19 → 0,794 (baterai).
    - **Diagnostik "kapan CMRE bekerja" (9 pasangan):** prediktor terbaik tanpa label adalah probe proksi gaya pada VLM (Spearman 0,78 dengan kenaikan). AIMv2 bukan kegagalan karena AIMv2 memang tidak bias (xsrc 0,84 > DINOv3 0,76). Kegagalan sesungguhnya: CLIP-L (+0,005) dan MetaCLIP-H|Web-DINO-1B (−0,10).
    - **Final v4 (K=16, fitur v3 yang sama):** purity BDC 0,992 [0,989–0,996], purity eksternal 0,983, **xsrc 0,975 [0,958–0,989]**, NMI 0,859, stabilitas seed 1,0, konsensus 78,3%, OOD GIZ 42,5%. Profil: 3 cluster baterai (C0 campur lampu dan GIZ; C1 dan C4 thumbnail berlatar putih, konsensus C1 = 0), player 2, TV 2 (CRT vs layar datar?), mesin cuci 2, keyboard 2 (C9 97% tanpa label, kemungkinan laptop), PCB C15 (640 foto, 442 GIZ).
    - **DIPUTUSKAN (24 Sep): partisi utama K=16 (v4), K=13 sebagai tingkat kasar.** Galeri v4 sudah dicek, pecahannya karena jenis objek, bukan gaya foto:
@@ -141,7 +142,7 @@ Galeri ada di volume `/out/final_v3/gallery/`. Profil cluster: `results/modal/fi
 | C11 | 366 | ponsel | |
 | C12 | 657 | PCB dan tumpukan e-waste | 683 foto GIZ, 304 OOD |
 
-Saran: sajikan taksonomi **dua tingkat**, K=13 sebagai partisi utama dan **K=16 sebagai sub-tingkat** (K=16 juga dipilih SCMax di seed 0). K=16 mempertahankan pemisahan CRT vs layar datar, CD/radio vs turntable, dan 3 jenis baterai.
+Saran historis ronde awal: sajikan taksonomi **dua tingkat**, K=13 sebagai partisi utama dan **K=16 sebagai sub-tingkat**. Audit terbaru memilih K=16 sebagai partisi final. K=16 mempertahankan pemisahan CRT vs layar datar, CD/radio vs turntable, dan 3 jenis baterai.
 
 ## 5. Klaim novelty (sudah dicek ke literatur)
 - **Baru:**

@@ -19,3 +19,5 @@ Embedding AIMv2 diunduh dari volume `bdc-max` pada 26 September 2026. SHA-256 ma
 `assignments_final_v4.csv` menyimpan hasil partisi final sebagai pembanding.
 
 Catatan reproduksi: `final_config_v4.json` mempertahankan indeks ambang varians lama `r_siglip2 = r_pecore = 65`. Karena PCA hanya menghitung 64 komponen, proyeksi yang benar-benar diterapkan memakai 64 arah untuk keduanya (`effective_r_*`). Audit selisih hasil hitung ulang dicatat di `results/modal/aimv2_fusion_report.md`.
+
+Audit 27 September menemukan salinan lokal `emb_dinov3hp_flip.npy` berbeda dari volume Modal yang menghasilkan `z_final_v4.npy`: 1.893 baris eksternal kosong dan dua baris berbeda. Semua baris *main* tetap sama. Berkas diganti dengan salinan volume ber-SHA-256 `f4b6f04158f1d3965460e77156669d2a281754b8000ff69299a7a1d756383268`. Versi lama dapat dipulihkan dari riwayat Git. Dengan berkas volume, fitur final yang dihitung ulang cocok dengan `z_final_v4.npy` (rerata selisih absolut 1,53e-6).
