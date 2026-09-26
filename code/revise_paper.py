@@ -99,13 +99,13 @@ def italicize_english(paragraph):
 
 
 KEY_FINDINGS = re.compile(
-    r"konsistensi lintas sumber naik dari 0,524 menjadi 0,975|"
-    r"AMI\) partisi akhir pada 2\.329 citra BDC berlabel mencapai 0,917|"
-    r"hanya 20 seed memilih tepat 16 dan 27 seed memilih K sedikitnya 18|"
+    r"CMRE menaikkan konsistensi lintas sumber dari 0,524 menjadi 0,975|"
+    r"Adjusted Mutual Information \(AMI\) pada 2\.329 citra BDC berlabel mencapai 0,917|"
+    r"hanya 20 seed memilih angka itu|"
     r"CMRE menaikkan xsrc fusi dari 0,524 menjadi 0,975|"
-    r"Perbaikan xsrc juga tampak pada Iliev \(0,803 menjadi 0,885\) dan Shubha \(0,356 menjadi 0,956\)|"
-    r"Office-Home menunjukkan kondisi tanpa perbaikan|"
-    r"partisi antar-seed hanya mencapai rerata ARI 0,861"
+    r"CMRE menaikkan xsrc BDC dari 0,524 menjadi 0,975|"
+    r"xsrc Iliev naik dari 0,803 menjadi 0,885 dan Shubha dari 0,356 menjadi 0,956|"
+    r"ARI antarpasangan partisi hanya 0,861"
 )
 
 
@@ -141,21 +141,21 @@ REWRITE = {
     4: TITLE,
     20: TITLE,
     24: (
-        "Foto sampah elektronik dari sumber berbeda dapat tampak lebih mirip menurut latar dan resolusinya daripada menurut jenis perangkatnya. "
-        "Penelitian ini menguji persoalan tersebut pada 3.792 citra utama BDC dengan embedding SigLIP2, Perception Encoder, dan DINOv3. "
-        "Cross-Model Residual Erasure (CMRE) mengurangi arah dominan pada residu embedding model visi-bahasa yang tidak terprediksi dari DINOv3, tanpa memakai label objek atau proksi gaya. "
-        "Jumlah kelompok dipilih dengan SCMax, partisi dibentuk melalui Spectral clustering, dan citra di luar kelompok yang dikenal ditandai memakai jarak tetangga terdekat. "
-        "Pada data pengembangan, konsistensi lintas sumber naik dari 0,524 menjadi 0,975; Adjusted Mutual Information (AMI) partisi akhir pada 2.329 citra BDC berlabel mencapai 0,917. "
-        "Selisih terhadap INLP yang memerlukan proksi gaya tidak signifikan pada uji ini. Audit 100 seed SCMax mempertahankan median K = 16, tetapi hanya 20 seed memilih tepat 16 dan 27 seed memilih K sedikitnya 18. Pada set Iliev dengan protokol terkunci, konsistensi mencapai 0,885 dibanding 0,803 tanpa CMRE; pada set konfirmasi Shubha yang lebih kecil, nilainya 0,956 dibanding 0,356. "
-        "Enam belas kelompok akhir memisahkan beberapa subtipe baterai, perangkat berlayar, dan mesin cuci. Deteksi kategori baru mencapai AUROC 0,994 pada Shubha, tetapi uji tersebut hanya mencakup dua kelas di luar kategori. "
-        "Temuan ini menunjukkan bahwa pengurangan bias sumber membantu pengelompokan lintas foto, sedangkan ketahanan pada foto rumah tangga Indonesia masih perlu diuji."
+        "Latar dan resolusi foto dapat membuat sampah elektronik sejenis terpisah saat dikelompokkan tanpa label. "
+        "Kami menguji 3.792 citra BDC dengan embedding SigLIP2, Perception Encoder, dan DINOv3. "
+        "Cross-Model Residual Erasure (CMRE) memproyeksikan keluar arah dominan dari bagian embedding visi-bahasa yang tidak dapat diprediksi DINOv3. Langkah ini tidak memerlukan label objek atau proksi gaya. "
+        "SCMax memilih jumlah kelompok, Spectral clustering membentuk partisi, dan jarak tetangga terdekat menandai citra di luar cakupan kelompok. "
+        "Pada data pengembangan, CMRE menaikkan konsistensi lintas sumber dari 0,524 menjadi 0,975. Adjusted Mutual Information (AMI) pada 2.329 citra BDC berlabel mencapai 0,917. "
+        "CMRE tidak berbeda signifikan dari INLP yang memakai proksi gaya. Audit 100 seed SCMax memberi median K = 16, tetapi hanya 20 seed memilih angka itu. Pada Iliev, konsistensi naik dari 0,803 menjadi 0,885 dan pada Shubha dari 0,356 menjadi 0,956. "
+        "Enam belas kelompok akhir memisahkan subtipe baterai, perangkat berlayar, dan mesin cuci. Deteksi kategori baru mencapai AUROC 0,994 pada Shubha yang hanya menyediakan dua kelas baru. "
+        "Hasil ini berlaku untuk sumber foto yang diuji. Foto rumah tangga Indonesia masih memerlukan pengujian tersendiri."
     ),
     26: "Kata kunci: sampah elektronik; pengelompokan tanpa label; bias sumber foto; representasi visual; deteksi kategori baru",
     28: "PENDAHULUAN",
     29: (
         "Dunia menghasilkan 62 juta ton sampah elektronik pada 2022. Dari jumlah itu, 22,3% tercatat dikumpulkan dan didaur ulang secara layak (Baldé et al., 2024). "
-        "Di Indonesia, timbulan pada 2021 diperkirakan sekitar 2 juta ton, sementara bagian yang dikelola dengan baik baru 17,4% (Defitri, 2022). "
-        "Angka tersebut menjadikan pemilahan awal penting: perangkat yang tampak serupa dapat memerlukan penanganan berbeda."
+        "Di Indonesia, perkiraan timbulan 2021 mencapai 2 juta ton dan 17,4% di antaranya dikelola dengan baik (Defitri, 2022). "
+        "Pemilahan awal menentukan jalur pengolahan, padahal perangkat yang tampak serupa dapat mengandung bahan berbahaya yang berbeda."
     ),
     30: (
         "Aki dan kaca tabung CRT mengandung timbal; baterai litium dapat terbakar ketika rusak; beberapa lampu serta layar lama mengandung merkuri. "
@@ -163,94 +163,94 @@ REWRITE = {
         "Karena itu, salah mengenali perangkat pada tahap pemilahan dapat berdampak pada keselamatan pembongkaran dan pilihan jalur pengolahan."
     ),
     31: (
-        "Foto dapat membantu petugas atau warga mengenali jenis perangkat sebelum memilahnya. Akan tetapi, citra produk, foto objek dengan latar beragam, dan foto lapangan memiliki ciri akuisisi yang berbeda. "
-        "Model yang belajar dari kemiripan visual mungkin mengikuti perbedaan tersebut, bukan identitas perangkat. "
-        "Pelabelan manual seluruh citra mahal, sedangkan kategori yang ditentukan sejak awal dapat melewatkan subtipe penting. Penelitian ini menilai apakah pengelompokan tanpa label dapat mengurangi kedua kendala itu."
+        "Petugas dapat memakai foto untuk mengenali perangkat sebelum memilahnya. Citra produk berlatar putih, foto objek dengan latar beragam, dan foto lapangan memberi model ciri akuisisi yang berbeda. "
+        "Jika model mengikuti ciri itu, perangkat sejenis dapat terpisah ke kelompok berbeda. Pelabelan manual ribuan foto memerlukan tenaga, sementara daftar kategori awal dapat melewatkan subtipe perangkat. "
+        "Penelitian ini menguji pengelompokan tanpa label pada foto dari beberapa sumber."
     ),
     32: (
-        "Penelitian terdahulu memberi titik banding yang berbeda (Tabel 1). Gundupalli et al. (2018) memilah fraksi material melalui citra termal, tetapi memerlukan kamera khusus. "
-        "Islam et al. (2023) serta Rajeev et al. (2025) memperoleh hasil klasifikasi dan deteksi yang baik untuk kelas yang telah ditetapkan, dengan kebutuhan label saat pelatihan. "
-        "YODO menelusuri laptop di lini pembongkaran tanpa label (Zhou et al., 2023). DECMCV mengelompokkan sampah umum tanpa label dan mencatat gangguan akibat perbedaan gaya foto, tetapi menyisihkan citra yang tidak disepakati antarmetode (Huang et al., 2025). "
-        "Dengan demikian, hasil pada satu sumber atau satu jenis perangkat belum menjawab apakah kelompok bertahan ketika objek yang sama difoto dengan cara berbeda."
+        "Gundupalli et al. (2018) memilah fraksi material dari citra termal yang memerlukan kamera khusus (Tabel 1). "
+        "Islam et al. (2023) dan Rajeev et al. (2025) meneliti klasifikasi serta deteksi pada kelas yang telah ditetapkan dan memakai label saat pelatihan. "
+        "YODO menelusuri laptop di lini pembongkaran tanpa label (Zhou et al., 2023). DECMCV mengelompokkan sampah umum tanpa label, tetapi membuang citra ketika metode-metodenya tidak sepakat. Penulisnya juga melaporkan gangguan akibat gaya foto (Huang et al., 2025). "
+        "Studi tersebut belum mengukur apakah foto perangkat sejenis dari sumber berbeda tetap berada dalam kelompok yang sama."
     ),
     36: (
         "Masalah penelitian dirumuskan dalam empat pertanyaan. Pertama, apakah representasi visual lebih dipengaruhi sumber foto daripada jenis perangkat? Kedua, dapatkah pengaruh tersebut dikurangi tanpa label atau proksi gaya? "
         "Ketiga, apakah kelompok yang terbentuk cukup stabil dan dapat ditafsirkan setelah jumlah kelompok dipilih tanpa label? Keempat, apakah foto dari sumber lain dan perangkat di luar kategori dapat ditangani tanpa membentuk ulang kelompok?"
     ),
     37: (
-        "Untuk menjawabnya, penelitian ini memakai citra utama BDC untuk menemukan kelompok, lalu menilai hasilnya pada data eksternal dengan representasi dan partisi yang dibekukan. "
-        "Label nama berkas hanya dipakai setelah pengelompokan untuk menafsirkan hasil; pemetaan ke kategori WEEE juga dilakukan setelah kelompok terbentuk. "
-        "CMRE diusulkan sebagai modifikasi proyeksi residu antarmodel: embedding model visi-bahasa diprediksi dari DINOv3, kemudian arah dominan pada bagian yang tidak terprediksi diproyeksikan keluar. "
-        "SCMax memilih jumlah kelompok, Spectral clustering membentuk partisi, dan skor tetangga terdekat menandai citra yang belum terwakili. "
-        "Kontribusi yang diuji ialah pengukuran bias sumber, pengurangan bias tanpa proksi, serta evaluasi lintas sumber dan kategori baru. Hasilnya dimaksudkan sebagai dasar penelitian pemilahan berbasis foto, belum sebagai sistem siap pakai."
+        "Kami membentuk kelompok pada citra utama BDC, lalu menilai citra eksternal dengan representasi dan partisi yang sudah tetap. "
+        "Label dari nama berkas dan kategori WEEE baru dipakai untuk menafsirkan kelompok setelah partisi selesai. "
+        "CMRE memprediksi embedding visi-bahasa dari DINOv3 dan membuang arah dominan pada residunya. SCMax memilih K, Spectral clustering membentuk kelompok, dan jarak tetangga menandai citra di luar cakupan. "
+        "Rancangan ini memungkinkan pengujian bias sumber tanpa proksi gaya, transfer antar sumber foto, dan deteksi kategori baru. Pemakaian untuk pemilahan nyata masih memerlukan pengujian pada foto dari Indonesia."
     ),
     39: "METODOLOGI",
     40: "2.1 Data dan pemisahan peran dataset",
     41: (
-        "Data utama berasal dari 3.961 citra e-waste BDC. Deduplikasi perceptual hash dengan batas jarak Hamming 6 menyisakan 3.604 citra latih unik. "
-        "Sebanyak 188 citra uji penyisihan ditambahkan memakai prediksi pengklasifikasi SigLIP2 dari babak sebelumnya, tanpa label panitia, sehingga data utama berisi 3.792 citra. "
-        "Sebagai pemeriksaan, seluruh pipeline dijalankan kembali hanya pada 3.604 citra latih: xsrc tetap 0,975 dan kesesuaian partisi dengan hasil utama mencapai ARI 0,93 pada citra latih. "
-        "Nama berkas menyediakan label objek yang valid bagi 2.329 citra dalam sepuluh kelas. Dua entri bernama upload dikeluarkan dari evaluasi kelas, sedangkan 1.461 citra tidak memiliki label nama berkas. Label tidak dipakai untuk ekstraksi fitur, pemilihan K, atau pembentukan cluster."
+        "Dari 3.961 citra e-waste BDC, deduplikasi perceptual hash pada jarak Hamming 6 menyisakan 3.604 citra latih unik. "
+        "Data utama juga mencakup 188 citra uji penyisihan yang dipilih berdasarkan prediksi pengklasifikasi SigLIP2 dari babak sebelumnya. Label panitia tidak tersedia pada tahap ini. Jumlah akhirnya 3.792 citra. "
+        "Ketika seluruh pipeline diulang pada 3.604 citra latih saja, xsrc tetap 0,975 dan ARI terhadap partisi utama pada citra latih mencapai 0,93. "
+        "Nama berkas memberi label objek valid untuk 2.329 citra dalam sepuluh kelas. Dua entri bernama upload dikeluarkan dari evaluasi kelas dan 1.461 citra tidak memiliki label nama berkas. "
+        "Ekstraksi fitur, pemilihan K, dan pembentukan cluster tidak memakai label tersebut."
     ),
     42: (
-        "Tujuh set data publik tambahan memiliki peran evaluasi yang berbeda (Tabel 2). Citra eksternal diproyeksikan ke kelompok yang telah dibentuk dari data utama; tidak ada pelatihan ulang atau pengelompokan ulang. "
-        "Duplikat terhadap BDC dibuang dengan perceptual hash. Audit menemukan 55% citra Kaan beririsan dengan BDC sebelum pembersihan, sehingga langkah ini diperlukan untuk mencegah kebocoran evaluasi. "
-        "Protokol serta pemetaan kelas Iliev dan Shubha ditetapkan sebelum data diunduh. Sebaliknya, xsrc BDC dipakai untuk membandingkan lebih dari 40 varian metode; nilainya harus dibaca sebagai hasil pengembangan, bukan estimasi generalisasi independen. "
-        "Office-Home digunakan hanya untuk pengujian sesuai lisensi riset nonkomersial."
+        "Tujuh set data publik melengkapi evaluasi dengan peran yang berbeda (Tabel 2). Citra eksternal mendapat kelompok berdasarkan partisi BDC yang tetap, tanpa pelatihan ulang. "
+        "Audit perceptual hash menemukan bahwa 55% citra Kaan beririsan dengan BDC. Duplikat itu dibuang sebelum evaluasi untuk mencegah kebocoran. "
+        "Protokol dan pemetaan kelas Iliev serta Shubha ditetapkan sebelum data diunduh. Sebaliknya, lebih dari 40 varian metode dibandingkan memakai xsrc BDC, sehingga nilainya merupakan hasil pengembangan. "
+        "Office-Home hanya dipakai untuk pengujian sesuai lisensi riset nonkomersial."
     ),
     46: (
-        "Pemeriksaan awal memperlihatkan perbedaan antarsumber yang besar. Sebanyak 66% citra BDC berukuran paling tinggi 200 piksel, dan citra produk Kaan juga banyak berupa gambar kecil berlatar putih. "
+        "Sebanyak 66% citra BDC berukuran paling tinggi 200 piksel. Banyak citra produk Kaan juga kecil dan berlatar putih. "
         "Foto objek Bangladesh umumnya sekitar 640 piksel dengan latar beragam, sedangkan foto lapangan GIZ mendekati 1.000 piksel. "
-        "Perbedaan resolusi dan latar pada objek yang sama menjadi alasan untuk menguji konsistensi lintas sumber, bukan hanya kemurnian kelompok pada BDC."
+        "Perbedaan resolusi dan latar ini dapat mengubah ketetanggaan embedding meskipun jenis perangkat sama. Karena itu, evaluasi mengukur konsistensi lintas sumber selain kesesuaian kelompok pada BDC."
     ),
     51: "2.2 Landasan metode",
     52: (
-        "SigLIP2 dan Perception Encoder memakai pelatihan visi-bahasa yang menghubungkan citra dengan teks, sebagaimana dijelaskan oleh Tschannen et al. (2025) dan Bolya et al. (2025). "
+        "SigLIP2 dan Perception Encoder belajar dari hubungan citra dan teks menurut Tschannen et al. (2025) dan Bolya et al. (2025). "
         "DINOv3 mempelajari representasi visual tanpa pasangan teks (Siméoni et al., 2025). "
-        "Penelitian ini menggunakan encoder citra yang dibekukan. Perbedaan tujuan prapelatihan menjadi alasan membandingkan representasi tunggal dan fusi; hasil pada tugas lain tidak dianggap sebagai bukti ketahanan terhadap sumber foto."
+        "Ketiga encoder citra tetap beku selama eksperimen. Perbandingan representasi tunggal dan fusi menguji apakah tujuan prapelatihan yang berbeda berkaitan dengan ketahanan terhadap sumber foto pada data penelitian ini."
     ),
     53: (
         "Ciri resolusi, latar, atau pencahayaan dapat menjadi jalan pintas bagi model ketika berkorelasi dengan kelas pada data latih (Geirhos et al., 2020). "
         "HEX memakai statistik tekstur GLCM sebagai representasi pembantu lalu memproyeksikan fitur menjauhi subruangnya (Wang et al., 2019). UMFC memperkirakan bias domain dari fitur visual dan transisi domain teks tanpa label kategori (Liang et al., 2024). "
         "Ravfogel et al. (2020) memakai probe berulang untuk atribut yang ditentukan melalui INLP. Belrose et al. (2023) menghapus konsep target secara linear melalui LEACE. "
-        "CMRE mengubah dasar pemilihan arah: residu prediksi embedding visi-bahasa dari acuan DINOv3 dihitung pada citra utama, lalu arah PCA residu yang dominan diproyeksikan keluar. Prosedur ini tidak membutuhkan label gaya atau statistik tekstur yang dirancang di muka; residu tidak dijamin hanya memuat gaya foto."
+        "CMRE memakai residu prediksi embedding visi-bahasa dari acuan DINOv3 untuk memilih arah proyeksi. PCA mencari arah dominan pada residu citra utama, lalu proyeksi mengeluarkan arah itu dari embedding visi-bahasa. "
+        "Pemilihan arah ini tidak memerlukan label gaya atau statistik tekstur buatan. Residu dapat pula memuat informasi objek."
     ),
     54: (
         "Spectral clustering mempartisi graf tetangga terdekat melalui vektor eigen Laplacian (Ng et al., 2002). "
-        "SCMax aslinya menggabungkan clustering hierarkis dengan skor konsensus tetangga untuk memilih jumlah kelompok (Zhang et al., 2026). "
-        "Penelitian ini memakai keluaran K dari SCMax, lalu membentuk partisi akhir secara terpisah dengan Spectral clustering; hierarki SCMax bukan taksonomi keluaran penelitian. "
-        "Untuk citra baru, jarak ke tetangga terdekat pada data utama dipakai sebagai skor deteksi di luar distribusi (Sun et al., 2022)."
+        "SCMax menggabungkan clustering hierarkis dan skor konsensus tetangga untuk memilih jumlah kelompok (Zhang et al., 2026). "
+        "K keluaran SCMax menjadi input Spectral clustering untuk partisi akhir. Hierarki internal SCMax tidak dipakai sebagai taksonomi. "
+        "Jarak citra baru ke tetangga terdekat pada data utama menjadi skor deteksi di luar distribusi (Sun et al., 2022)."
     ),
     55: "2.3 Rancangan metode",
     56: (
-        "Alur penelitian terdiri atas deduplikasi dan ekstraksi embedding, pengurangan arah residu dengan CMRE, fusi fitur, pemilihan K oleh SCMax, partisi Spectral, serta evaluasi kelompok dan deteksi kategori baru. "
-        "Semua keputusan pembentukan kelompok memakai citra dan embedding data utama; label objek baru dibuka pada tahap evaluasi."
+        "Deduplikasi dan ekstraksi embedding mendahului proyeksi CMRE. SCMax lalu memilih K pada fitur hasil fusi dan Spectral membentuk partisi. "
+        "Evaluasi memeriksa kelompok dan kategori baru setelah partisi tetap. Label objek hanya dipakai pada tahap tersebut."
     ),
     61: (
-        "Citra dideduplikasi, diubah ukurannya sesuai model, lalu diproses dalam orientasi asli dan horizontal flip; kedua embedding dirata-rata. "
-        "SigLIP2-So400m dan PE-Core-G dipilih sebagai model visi-bahasa, sedangkan DINOv3-H+ menjadi acuan visual tanpa supervisi bahasa. "
-        "Pada setiap model visi-bahasa, regresi ridge memprediksi embedding V dari embedding DINOv3 S. Residu R menampung bagian V yang tidak terprediksi (Persamaan 1). "
-        "PCA pada R menghasilkan arah dominan U_r (Persamaan 2), lalu proyeksi pada Persamaan 3 mengeluarkan arah itu dari V. "
-        "Arah residu tidak diasumsikan seluruhnya sebagai gaya foto; sebagian informasi objek mungkin ikut terbuang. Karena itu, pengaruh CMRE dinilai dengan metrik objek dan lintas sumber."
+        "Setelah deduplikasi, setiap model menerima citra pada ukuran inputnya dalam orientasi asli dan horizontal flip. Kedua embedding kemudian dirata-ratakan. "
+        "SigLIP2-So400m dan PE-Core-G menyediakan representasi visi-bahasa. DINOv3-H+ menjadi acuan visual tanpa supervisi bahasa. "
+        "Regresi ridge memprediksi embedding V dari embedding DINOv3 S untuk masing-masing model visi-bahasa. Selisih prediksi membentuk residu R (Persamaan 1). "
+        "PCA mencari arah dominan U_r pada R (Persamaan 2), kemudian proyeksi mengeluarkan arah tersebut dari V (Persamaan 3). "
+        "Residu dapat memuat informasi objek selain gaya foto. Kami menilai konsekuensi penghapusannya melalui metrik objek dan lintas sumber."
     ),
     65: (
-        "Banyaknya arah yang dihapus ditentukan tanpa label dari 50% varians residu, dengan batas 64 komponen; pada data ini r mencapai batas tersebut. Parameter ridge memakai nilai baku α = 1. "
-        "DINOv3-H+ dipilih sebagai acuan karena prediksi silang embedding VLM-nya tinggi di antara model SSL yang dapat dijalankan: R² ridge 0,403, dibanding 0,434 pada DINOv3-7B yang memerlukan GPU A100. "
-        "Kedua embedding visi-bahasa hasil CMRE digabung dengan DINOv3, direduksi menjadi 32 dimensi melalui PCA, kemudian dinormalisasi (Persamaan 4). "
-        "Istilah erasure dalam CMRE merujuk pada proyeksi arah residu, bukan klaim bahwa identitas sumber telah hilang dari embedding."
+        "Aturan tanpa label mengambil arah hingga 50% varians residu, dengan batas 64 komponen. Pada data ini r mencapai 64. Regresi ridge memakai α = 1. "
+        "DINOv3-H+ menjadi acuan karena R² prediksi silang embedding VLM mencapai 0,403. DINOv3-7B sedikit lebih tinggi, 0,434, tetapi memerlukan GPU A100. "
+        "Fusi menggabungkan dua embedding hasil CMRE dan embedding DINOv3. PCA mereduksinya menjadi 32 dimensi sebelum normalisasi (Persamaan 4). "
+        "Istilah erasure menyebut proyeksi arah residu. Probe sumber masih dapat membaca informasi sumber setelah proyeksi."
     ),
     67: (
-        "SCMax mula-mula dijalankan pada embedding hasil fusi dengan sembilan seed; median K = 16 ditetapkan untuk partisi akhir. Setelah pilihan itu dibekukan, SCMax diulang dengan seed 0–99 pada data dan embedding yang sama sebagai audit kestabilan pemilihan K. Setiap K pilihan dievaluasi dengan Spectral clustering dan proyeksi citra eksternal yang sama; audit ini tidak mengulang ekstraksi fitur atau bootstrap data. "
-        "Spectral clustering membentuk partisi pada graf 15 tetangga terdekat. Nama kelompok dan hubungannya dengan kategori WEEE ditentukan setelah partisi dibekukan melalui pemeriksaan citra. "
-        "Sebagai analisis hierarki tambahan, centroid dari 16 kelompok akhir digabung secara agglomerative dengan average linkage dan jarak kosinus; prosedur ini tidak mengubah partisi Spectral maupun pemilihan K oleh SCMax. "
-        "Untuk citra baru, pusat kelompok terdekat memberi penempatan awal. Skor OOD dihitung dari jarak ke tetangga ke-10 pada data utama dan dibandingkan dengan persentil ke-95 skor data utama (Persamaan 5). "
-        "Ekstraksi fitur dijalankan pada GPU cloud dan tahap clustering pada CPU."
+        "Kami menjalankan SCMax pada embedding fusi dengan sembilan seed dan memakai median K = 16 untuk partisi akhir. Audit berikutnya mengulang SCMax pada seed 0–99 dengan citra dan embedding tetap. "
+        "Untuk setiap K terpilih, Spectral clustering membentuk partisi pada graf 15 tetangga, lalu citra eksternal diproyeksikan dengan cara yang sama. Audit ini tidak mengulang ekstraksi fitur atau pengambilan sampel data. "
+        "Setelah partisi akhir tetap, kami memeriksa citra untuk menamai kelompok dan mengaitkannya dengan kategori WEEE. Kami juga menggabungkan centroid dari 16 kelompok memakai agglomerative average linkage dan jarak kosinus untuk membaca hubungan antarkelompok. Penggabungan ini tidak mengubah partisi Spectral atau K pilihan SCMax. "
+        "Pusat kelompok terdekat menentukan penempatan citra baru. Jarak ke tetangga ke-10 pada data utama menjadi skor OOD, dengan persentil ke-95 skor data utama sebagai ambang (Persamaan 5). Ekstraksi fitur memakai GPU cloud dan clustering memakai CPU."
     ),
     69: "2.4 Protokol dan metrik evaluasi",
     70: (
-        "Eksperimen disusun mengikuti empat pertanyaan penelitian. Representasi tunggal dibandingkan untuk mengukur bias sumber; fusi mentah, INLP, LEACE, dan CMRE menguji pengurangan bias; beberapa algoritma clustering membandingkan partisi pada fitur yang sama; Iliev, Shubha, dan Office-Home menguji transfer setelah pipeline dibekukan. "
-        "K-Means, Ward, GMM, TEMI, TURTLE, dan protokol DECMCV dipakai sebagai pembanding sesuai peran masing-masing. Perbandingan metode pada K tetap memakai reduksi PCA-32 dan K = 16; audit SCMax memakai K pilihan tiap seed. "
-        "Sapuan parameter r, K, dan jumlah tetangga dilaporkan sebagai sensitivitas; metrik pada data pengembangan tidak dipakai untuk mengklaim validasi independen."
+        "Perbandingan representasi tunggal mengukur bias sumber. Fusi mentah, INLP, LEACE, dan CMRE menguji cara menguranginya. "
+        "Pada fitur yang sama, kami membandingkan Spectral dengan K-Means, Ward, GMM, TEMI, TURTLE, dan protokol DECMCV. Iliev, Shubha, dan Office-Home menguji transfer setelah pipeline tetap. "
+        "Perbandingan pada K tetap memakai PCA-32 dan K = 16, sementara audit SCMax memakai K pilihan tiap seed. Sapuan r dan jumlah tetangga mengukur kepekaan parameter. Skor BDC berasal dari proses pengembangan, sehingga tidak diperlakukan sebagai validasi independen."
     ),
     71: (
         "Penilaian dipisahkan menurut pertanyaan penelitian (Tabel 3). Konsistensi lintas sumber, xsrc (Persamaan 6), dihitung dari lima kelas yang sama pada citra produk Kaan dan foto objek Bangladesh. Untuk setiap kelas c, kelompok mayoritas Kaan menjadi acuan; proporsi Bangladesh yang masuk kelompok itu dirata-ratakan antarkelas. "
@@ -262,23 +262,21 @@ REWRITE = {
     77: "HASIL DAN PEMBAHASAN",
     78: "3.1 Bias sumber pada representasi visual",
     79: (
-        "Dalam perbandingan representasi tunggal dengan protokol seragam, SigLIP2 dan CLIP hanya menempatkan sekitar 37% foto objek Bangladesh ke kelompok acuan citra produk Kaan dari kelas yang sama. DINOv3-H+ mencapai 0,86. "
-        "Pada pasangan model lain yang data pelatihannya sejenis, MetaCLIP berbasis pasangan citra-teks menghasilkan xsrc 0,20, sedangkan Web-DINO tanpa pasangan teks mencapai 0,70. Kedua encoder dideskripsikan oleh Xu et al. (2024) dan Fan et al. (2025). "
-        "Perbedaan ini konsisten dengan dugaan bahwa supervisi bahasa dapat memperkuat ciri jenis foto. Namun arsitektur dan data pelatihan kedua model tidak sepenuhnya identik, sehingga hasil tersebut belum mengisolasi pengaruh supervisi bahasa."
+        "Dengan protokol yang sama, SigLIP2 dan CLIP menempatkan sekitar 37% foto objek Bangladesh ke kelompok mayoritas citra produk Kaan dari kelas yang sama. DINOv3-H+ mencapai 0,86. "
+        "MetaCLIP, yang belajar dari pasangan citra-teks, menghasilkan xsrc 0,20 (Xu et al., 2024). Web-DINO tanpa pasangan teks mencapai 0,70 (Fan et al., 2025). "
+        "Pola tersebut sesuai dengan dugaan bahwa supervisi bahasa dapat memperkuat ciri sumber foto. Arsitektur dan data pelatihan kedua model belum sepenuhnya sepadan, sehingga perbandingan ini belum membuktikan penyebabnya."
     ),
     80: (
-        "Kesesuaian terhadap label BDC pada audit awal belum menangkap persoalan ini: NMI objek fusi mentah mencapai 0,948 pada penghitungan awal, tetapi xsrc hanya 0,524. "
-        "Nilai NMI tersebut memakai 2.331 entri nama berkas sebelum dua entri upload dipisahkan dari sepuluh kelas objek; karena itu angka tersebut digunakan hanya sebagai diagnostik awal. "
-        "Perbedaan hasil dalam dan lintas sumber menunjukkan perlunya pengujian transfer, bukan hanya kesesuaian terhadap label BDC."
+        "Fusi mentah mencapai NMI objek 0,948 pada audit BDC awal, tetapi xsrc hanya 0,524. NMI tersebut memakai 2.331 entri nama berkas sebelum dua entri upload dikeluarkan dari sepuluh kelas objek. "
+        "Karena itu, angka NMI awal hanya menjadi diagnostik. Skor pada satu sumber tidak menggambarkan perilaku kelompok ketika sumber foto berubah."
     ),
     85: "3.2 Pengaruh CMRE terhadap konsistensi lintas sumber",
     86: (
         "Pada partisi K = 16, CMRE menaikkan xsrc fusi dari 0,524 menjadi 0,975. NMI objek pada data eksternal naik dari 0,789 menjadi 0,859, dan seluruh citra tetap diberi kelompok (Tabel 4). "
-        "AMI partisi akhir pada sepuluh label objek BDC mencapai 0,917. Rerata xsrc tidak menutupi variasi kelas: baterai mencapai 0,920, keyboard dan mouse 1,000, ponsel 0,981, serta PCB 0,977. "
-        "INLP dengan proksi gaya mencapai xsrc yang sama; uji ini belum dapat membedakan kinerja keduanya atau membuktikan kesetaraan. LEACE dengan proksi mencapai 0,792. "
-        "Pada embedding CMRE yang sama, TURTLE menghasilkan 0,790, TEMI 0,590, dan protokol DECMCV 0,910 dengan cakupan 81% citra; perbedaan cakupan perlu diperhatikan ketika membandingkan skor. "
-        "Uji bootstrap berpasangan 2.000 kali menunjukkan selisih positif terhadap fusi mentah dan DINOv3 saja pada BDC, Iliev, dan Shubha (p < 0,001). Interval selisih terhadap INLP memuat nol. "
-        "Manfaat praktis CMRE pada pengujian ini ialah tidak perlunya mendefinisikan proksi gaya foto sebelum proyeksi."
+        "AMI pada 2.329 citra BDC berlabel mencapai 0,917. xsrc per kelas berkisar dari 0,920 untuk baterai hingga 1,000 untuk keyboard dan mouse. Ponsel mencapai 0,981 dan PCB 0,977. "
+        "INLP dengan proksi gaya juga mencapai xsrc 0,975. Interval selisihnya memuat nol, sehingga uji ini belum membedakan kinerja CMRE dan INLP. LEACE dengan proksi mencapai 0,792. "
+        "Pada embedding CMRE yang sama, TURTLE menghasilkan 0,790, TEMI 0,590, dan protokol DECMCV 0,910. DECMCV hanya mempertahankan 81% citra, sehingga skor itu memiliki cakupan berbeda. "
+        "Dalam 2.000 bootstrap berpasangan, CMRE melampaui fusi mentah dan DINOv3 saja pada BDC, Iliev, dan Shubha (p < 0,001). CMRE mencapai hasil tersebut tanpa definisi proksi gaya foto."
     ),
     88: "Tabel 4. Perbandingan metode pada K = 16 di data pengembangan",
     89: (
@@ -287,92 +285,89 @@ REWRITE = {
         "Metode bertanda † dijalankan pada embedding CMRE yang sama dengan K = 16 dan rerata tiga seed. DECMCV membuang citra yang tidak disepakati, sehingga xsrc-nya perlu dibaca bersama cakupan 81%."
     ),
     91: (
-        "Probe linear membantu membaca perubahan pada embedding, tanpa menjadi bukti tunggal mekanismenya. Ketika probe dilatih pada citra produk Kaan dan diuji pada foto objek Bangladesh, akurasi objek naik dari 0,944 menjadi 0,983 setelah CMRE. "
-        "Arah yang dihapus berkorelasi dengan resolusi (|ρ| hingga 0,68) dan proporsi latar putih (0,39). Namun probe sumber tetap mencapai 0,96-0,99; informasi sumber masih ada, hanya pengaruhnya terhadap kelompok yang berkurang. "
-        "Acuan berlabel ConvNeXt V2 justru menurunkan xsrc menjadi 0,384. Pada sembilan pasangan model, manfaat CMRE berasosiasi dengan besarnya jejak gaya awal (Spearman 0,78), sedangkan model yang sejak awal tahan bias tidak selalu terbantu."
+        "Probe objek yang dilatih pada citra produk Kaan mencapai akurasi 0,944 pada foto objek Bangladesh sebelum CMRE dan 0,983 sesudahnya. "
+        "Arah yang dibuang berkorelasi dengan resolusi (|ρ| hingga 0,68) dan proporsi latar putih (0,39). Probe sumber masih mencapai 0,96-0,99, sehingga CMRE tidak menghilangkan identitas sumber dari embedding. "
+        "Ketika acuan diganti dengan ConvNeXt V2 berlabel, xsrc turun menjadi 0,384. Pada sembilan pasangan model, besar manfaat CMRE berkaitan dengan jejak gaya awal (Spearman 0,78). Korelasi ini membantu menafsirkan hasil, tetapi belum mengisolasi mekanisme proyeksi."
     ),
     92: (
-        "Pada Iliev, yang pemetaan kelas dan metriknya dikunci sebelum data diunduh, xsrc eksternal mencapai 0,885 dengan interval kepercayaan 95% sebesar 0,864-0,908; fusi mentah mencapai 0,803 dan DINOv3 saja 0,755. Purity pada set ini 0,939. "
-        "Iliev kemudian dipakai memilih skor OOD, sehingga statusnya sebagai set terkunci berlaku untuk evaluasi clustering, bukan untuk OOD. "
-        "Pada Shubha, set konfirmasi awal berisi 300 crop, xsrc naik dari 0,356 pada fusi mentah menjadi 0,956 (interval 0,924-0,983) setelah CMRE. "
-        "Office-Home memberi kondisi pembanding: fusi mentah sudah memiliki xsrc 0,865 dan CMRE menghasilkan 0,864, sementara silhouette naik dari 0,39 menjadi 0,48. "
-        "Dengan demikian, peningkatan terbesar muncul ketika bias sumber awal memang kuat; hasil Office-Home tidak mendukung klaim bahwa CMRE selalu memperbaiki transfer."
+        "Pada Iliev, xsrc CMRE mencapai 0,885 (IK95% 0,864-0,908), dibanding 0,803 untuk fusi mentah dan 0,755 untuk DINOv3 saja. Purity mencapai 0,939. Kami mengunci pemetaan kelas dan metrik Iliev sebelum mengunduh datanya. "
+        "Iliev kemudian dipakai memilih skor OOD. Status uji terkunci karena itu hanya berlaku untuk evaluasi clustering. "
+        "Pada 300 crop Shubha, CMRE menaikkan xsrc dari 0,356 menjadi 0,956 (IK95% 0,924-0,983). "
+        "Office-Home menghasilkan pola berbeda. Fusi mentah sudah mencapai xsrc 0,865 dan CMRE memberi 0,864, walaupun silhouette naik dari 0,39 menjadi 0,48. "
+        "Kenaikan xsrc terbesar muncul pada data dengan bias sumber awal yang kuat. Pada Office-Home, CMRE tidak memperbaiki transfer."
     ),
     97: "3.3 Pemilihan jumlah kelompok dan sensitivitas parameter",
     98: (
-        "Audit 100 seed SCMax menghasilkan median K = 16 dan modus 17. Frekuensinya: K = 13 (2 seed), 14 (10), 15 (20), 16 (20), 17 (21), 18 (14), 19 (10), 20 (2), dan 21 (1). Partisi final tetap memakai K = 16 yang telah dipilih dari sembilan seed awal; audit tambahan ini tidak dipakai memilih ulang K. "
-        "Ketika Spectral mengikuti K pilihan masing-masing seed, xsrc mencapai 0,923 ± 0,098 (rerata ± simpangan baku; median 0,975; rentang 0,596–0,988), sedangkan NMI objek eksternal 0,854 ± 0,022. ARI antarpasangan 100 partisi rerata 0,861 ± 0,110. Pada 27 seed yang memilih K sedikitnya 18, xsrc hanya 0,596–0,794; pada K = 13–17 nilainya 0,972–0,988. Sebaran antar-seed ini menunjukkan ketidakpastian algoritmik pada data tetap, bukan interval kepercayaan generalisasi. "
-        "Partisi Spectral pada K yang berbeda dijalankan secara terpisah, sehingga kemiripan K = 13 dan K = 16 tidak boleh disebut hierarki bersarang. "
-        "Hierarki tambahan dibangun sesudah partisi K = 16 melalui penggabungan centroid. Empat penggabungan awal ialah dua jenis mesin cuci, dua baterai perangkat, dua pemutar audio, lalu dua televisi. Keempat cabang pulih pada 200 dari 200 bootstrap yang mempertahankan anggota tiap cluster; uji ini belum menilai kestabilan jika SCMax dan Spectral dijalankan ulang."
+        "Dalam 100 seed, SCMax memilih K = 16 sebagai median dan K = 17 sebagai modus. Sebarannya ialah K = 13 (2 seed), 14 (10), 15 (20), 16 (20), 17 (21), 18 (14), 19 (10), 20 (2), dan 21 (1). Partisi final tetap memakai K = 16 dari sembilan seed awal. "
+        "Jika Spectral mengikuti K setiap seed, rerata xsrc menjadi 0,923 ± 0,098, dengan median 0,975 dan rentang 0,596-0,988. NMI objek eksternal mencapai 0,854 ± 0,022 dan ARI antarpasangan partisi 0,861 ± 0,110. "
+        "Pada 27 seed yang memilih K sedikitnya 18, xsrc berada pada 0,596-0,794. K = 13-17 memberi 0,972-0,988. Variasi ini berasal dari inisialisasi algoritma pada data tetap. "
+        "Spectral membentuk partisi terpisah untuk setiap K, sehingga partisi K = 13 tidak menjadi induk partisi K = 16. Setelah partisi K = 16 tetap, kami menggabungkan centroid untuk analisis hierarki. "
+        "Empat penggabungan pertama memasangkan dua jenis mesin cuci, dua baterai perangkat, dua pemutar audio, dan dua televisi. Keempat cabang muncul pada seluruh 200 bootstrap yang mempertahankan anggota cluster. Angka itu belum mencakup pengulangan SCMax atau Spectral pada sampel baru."
     ),
     99: (
-        "Uji sensitivitas menunjukkan xsrc 0,97-0,99 untuk r = 16-64, tetapi 0,449 pada r = 4 dan 0,821 pada r = 128. Nilai α dari 0,01 sampai 1 memberi xsrc 0,975-0,983, lalu menurun pada α yang lebih besar. "
-        "Pada K = 16, Spectral menghasilkan xsrc 0,975, dibanding K-Means 0,949, GMM 0,926, dan Ward 0,836. K-Means justru memiliki silhouette sedikit lebih tinggi (0,398 dibanding 0,364), kembali menunjukkan keterbatasan indeks internal untuk bias sumber. "
-        "Pada graf Spectral dengan 15-30 tetangga, xsrc berada pada 0,975-0,988; pemakaian 5-10 tetangga menurunkannya ke sekitar 0,91. "
-        "Dengan K dibekukan pada 16, empat seed tambahan Spectral menghasilkan ARI 1,00 terhadap partisi final; angka itu tidak mencakup variasi K dari SCMax. Sebelas dari 16 kelompok mencapai Jaccard bootstrap sedikitnya 0,85."
+        "Pada r = 16-64, xsrc berada pada 0,97-0,99. Nilainya turun menjadi 0,449 saat r = 4 dan 0,821 saat r = 128. α = 0,01-1 memberi xsrc 0,975-0,983, sebelum turun pada α yang lebih besar. "
+        "Dengan K = 16, Spectral mencapai xsrc 0,975, K-Means 0,949, GMM 0,926, dan Ward 0,836. K-Means memiliki silhouette lebih tinggi daripada Spectral, 0,398 berbanding 0,364, meskipun xsrc-nya lebih rendah. "
+        "Graf dengan 15-30 tetangga memberi xsrc 0,975-0,988. Pada 5-10 tetangga, nilainya sekitar 0,91. "
+        "Empat seed Spectral tambahan pada K = 16 menghasilkan ARI 1,00 terhadap partisi final. Pemeriksaan ini tidak memasukkan variasi K dari SCMax. Sebelas dari 16 kelompok mencapai Jaccard bootstrap sedikitnya 0,85."
     ),
     104: "3.4 Penafsiran kelompok dan batas taksonomi",
     105: (
-        "Tabel 5 memuat isi dominan, jumlah citra, kestabilan, dan penafsiran penanganan untuk keenam belas kelompok. "
-        "Nama kelompok berasal dari pemeriksaan citra setelah partisi selesai; nama tersebut tidak menjadi target model. "
-        "Pemetaan WEEE dan B3 digunakan untuk membaca kegunaan kelompok, bukan sebagai label pelatihan."
+        "Tabel 5 merinci isi dominan, jumlah citra, kestabilan, dan kemungkinan penanganan keenam belas kelompok. "
+        "Kami memberi nama kelompok setelah memeriksa citranya. Kategori WEEE dan B3 juga ditautkan setelah partisi selesai. Model tidak memakai nama atau kategori tersebut saat membentuk kelompok."
     ),
     113: (
-        "Empat pasangan pertama pada hierarki centroid mempunyai hubungan visual yang mudah dibaca: mesin cuci bukaan atas dan depan, baterai laptop dan baterai kecil, dua jenis pemutar audio, serta TV CRT dan layar datar. "
-        "Pada potongan 12 kelompok, penggabungan pasangan tersebut mempertahankan purity BDC 0,993 pada 2.329 citra berlabel dan xsrc 0,975. Pada potongan delapan kelompok, purity turun menjadi 0,796 karena kategori berbeda mulai bergabung. "
-        "Ini mendukung penggunaan hierarki dangkal sebagai ringkasan, bukan klaim bahwa seluruh pohon mencerminkan taksonomi penanganan. "
-        "Kelompok C9 didominasi laptop meskipun nama berkas BDC mengaitkannya dengan keyboard; 96,7% foto laptop Iliev masuk ke kelompok itu. "
-        "Pada citra Iliev yang dikenali, kesesuaian kelompok dengan kategori EU-6 mencapai 79%, dibanding 19% pada 100.000 penggabungan acak dengan ukuran grup sama (p < 0,001). "
-        "Namun jarak antarpusat kelompok dalam satu kategori WEEE tidak lebih kecil dari acak (p = 0,46). Kategori WEEE karena itu lebih tepat diperlakukan sebagai lapisan interpretasi setelah clustering."
+        "Empat penggabungan awal pada hierarki centroid mempertemukan mesin cuci bukaan atas dan depan, baterai laptop dan baterai kecil, dua jenis pemutar audio, serta TV CRT dan layar datar. "
+        "Potongan 12 kelompok mempertahankan purity BDC 0,993 pada 2.329 citra berlabel dan xsrc 0,975. Ketika jumlah kelompok turun ke delapan, purity menjadi 0,796 karena kategori perangkat berbeda mulai bergabung. "
+        "Hierarki berguna untuk merangkum penggabungan awal, sedangkan cabang atas belum dapat ditafsirkan sebagai taksonomi penanganan. "
+        "C9 didominasi laptop walaupun nama berkas BDC mengaitkannya dengan keyboard. Sebanyak 96,7% foto laptop Iliev masuk ke C9. "
+        "Pada citra Iliev yang dikenali, 79% penempatan kelompok sesuai kategori EU-6. Angka itu 19% pada 100.000 penggabungan acak dengan ukuran grup sama (p < 0,001). "
+        "Jarak antarpusat kelompok dalam satu kategori WEEE tidak lebih kecil dari acak (p = 0,46). Karena itu, kategori WEEE dipakai untuk interpretasi setelah clustering."
     ),
     114: (
-        "Kesalahan lintas sumber tetap ada. Dari 449 foto objek Bangladesh pada lima kelas bersama, 12 tidak masuk kelompok mayoritas citra produk Kaan: tujuh baterai masuk kelompok aki, tiga PCB masuk baterai ponsel, dan dua ponsel masuk baterai. "
-        "Beberapa stop kontak juga masuk C0, kemungkinan karena bentuk kotak dan terminal logamnya. Foto tumpukan campuran banyak terkumpul pada C15 bersama papan sirkuit. "
-        "Kelompok aki, CRT, dan baterai kecil memiliki Jaccard bootstrap 0,71-0,82, lebih rendah daripada kelompok lain. Dengan demikian, kemurnian agregat yang tinggi tidak menghapus kebutuhan meninjau kelompok yang kecil dan bentuk objek yang saling menyerupai."
+        "Dari 449 foto objek Bangladesh pada lima kelas bersama, 12 gagal masuk kelompok mayoritas citra produk Kaan. Tujuh baterai masuk kelompok aki, tiga PCB masuk baterai ponsel, dan dua ponsel masuk baterai. "
+        "Beberapa stop kontak masuk C0 bersama objek berbentuk kotak dengan terminal logam. Foto tumpukan campuran terkumpul pada C15 bersama papan sirkuit. "
+        "Kelompok aki, CRT, dan baterai kecil memiliki Jaccard bootstrap 0,71-0,82, di bawah kelompok lain. Kesalahan tersebut tetap perlu diperiksa walaupun kemurnian agregat tinggi."
     ),
     115: "3.5 Deteksi perangkat di luar kategori",
     116: (
-        "Jarak ke tetangga terdekat menghasilkan AUROC OOD 0,937 pada Iliev, dibanding 0,868 untuk jarak ke pusat kelompok. Iliev dipakai memilih skor ini, sehingga angka tersebut merupakan hasil pengembangan OOD. "
-        "Pada Shubha, AUROC mencapai 0,994 dengan interval kepercayaan 95% sebesar 0,984-0,999, tetapi hanya dua kelas di luar kategori yang tersedia. "
-        "Ambang persentil ke-95 menandai 94% foto lampu Bangladesh yang tidak terwakili pada BDC, sekaligus keliru menandai 13% foto objek Bangladesh dari kelas dikenal. "
-        "Di Iliev, AC ditandai pada 97% foto, kulkas 83%, serta setrika, kipas angin, lampu LED, dan dispenser air masing-masing 100%; pemutar MP3 portabel juga sering ditandai karena kelas pemutar BDC didominasi perangkat yang lebih besar."
+        "Pada Iliev, skor jarak tetangga terdekat mencapai AUROC OOD 0,937. Skor jarak ke pusat kelompok mencapai 0,868. Kami memilih skor pertama memakai Iliev, sehingga angka ini merupakan hasil pengembangan OOD. "
+        "Pada Shubha, AUROC mencapai 0,994 (IK95% 0,984-0,999) dengan dua kelas baru yang tersedia. "
+        "Ambang persentil ke-95 menandai 94% foto lampu Bangladesh yang tidak terwakili di BDC, tetapi juga salah menandai 13% foto Bangladesh dari kelas dikenal. "
+        "Pada Iliev, alarm muncul pada 97% foto AC, 83% kulkas, dan seluruh foto setrika, kipas angin, lampu LED, serta dispenser air. Pemutar MP3 portabel juga sering memicu alarm karena kelompok pemutar BDC didominasi perangkat lebih besar."
     ),
     117: (
-        "Sebanyak 44,5% foto lapangan GIZ melewati ambang OOD. Di antara foto yang ditandai, banyak terdapat AC, kulkas, dan kompresor, jenis perangkat yang tidak terdapat dalam kelompok utama BDC. "
-        "Temuan ini menunjukkan fungsi praktis alarm kategori baru, tetapi proporsi yang ditandai sendiri bukan ukuran akurasi karena tidak semua foto GIZ memiliki padanan label yang lengkap. "
-        "Foto yang ditandai perlu diperiksa petugas sebelum diberi arahan penanganan."
+        "Ambang OOD menandai 44,5% foto lapangan GIZ. Foto yang ditandai mencakup banyak AC, kulkas, dan kompresor yang tidak terwakili dalam kelompok utama BDC. "
+        "Persentase tersebut belum mengukur akurasi karena label GIZ tidak lengkap. Petugas perlu memeriksa foto beralarm sebelum menentukan jalur penanganan."
     ),
     122: "3.6 Hubungan dengan studi terdahulu dan penggunaan di Indonesia",
     123: (
-        "DECMCV telah melaporkan bahwa perbedaan gaya foto mengganggu pengelompokan sampah (Huang et al., 2025). Penelitian ini menambahkan ukuran konsistensi lintas sumber dan menguji proyeksi residu sebagai cara mengurangi gangguan tersebut tanpa membuang citra. "
-        "Dibanding studi klasifikasi terawasi seperti Islam et al. (2023), persoalan yang ditangani berbeda: kategori belum ditetapkan saat pembentukan kelompok. Karena itu, akurasi klasifikasi pada satu dataset tidak dapat dibandingkan langsung dengan xsrc penelitian ini. "
-        "Pemisahan subtipe perangkat konsisten dengan pengamatan Zhou et al. (2025) tentang kegunaan tipe produk dalam pembongkaran, tetapi relevansi operasional tiap kelompok masih memerlukan penilaian ahli pengelolaan e-waste."
+        "Huang et al. (2025) melaporkan gangguan gaya foto pada DECMCV. CMRE menguji proyeksi residu untuk mengurangi gangguan tersebut tanpa membuang citra, lalu xsrc mengukur apakah perangkat sejenis tetap satu kelompok saat sumber foto berubah. "
+        "Islam et al. (2023) menilai klasifikasi pada kategori yang telah ditentukan. Penelitian ini membentuk kelompok sebelum memakai label, sehingga akurasi klasifikasi mereka tidak sepadan dengan xsrc. "
+        "Zhou et al. (2025) mengaitkan tipe produk dengan kebutuhan pembongkaran. Kelompok yang memisahkan subtipe perangkat di sini masih memerlukan penilaian ahli sebelum menjadi dasar penanganan."
     ),
     124: (
-        "Dalam konteks Indonesia, hasil ini dapat menjadi bahan awal bagi alat bantu triase foto di bank sampah atau tempat pengumpulan. Sistem semacam itu perlu menampilkan kelompok yang diperkirakan, skor ketidakpastian, serta pilihan pemeriksaan manual untuk foto yang ditandai OOD. "
-        "Versi cepat dengan SigLIP2 dan DINOv3 memproses sekitar 20 citra per detik pada GPU L4, dibanding 3,4 citra per detik untuk pipeline penuh; xsrc-nya 0,951 pada BDC, 0,860 pada Iliev, dan 0,922 pada Shubha. "
-        "Angka ini menunjukkan pilihan biaya komputasi dan kinerja, bukan pengukuran pada ponsel. Uji pada foto rumah tangga Indonesia dan pemeriksaan jalur penanganan oleh petugas tetap diperlukan sebelum penerapan."
+        "Alat bantu triase foto untuk bank sampah dapat menampilkan kelompok perkiraan, skor OOD, dan pilihan pemeriksaan manual. Foto beralarm memerlukan keputusan petugas. "
+        "Versi cepat SigLIP2 dan DINOv3 memproses sekitar 20 citra per detik pada GPU L4, dibanding 3,4 untuk pipeline penuh. xsrc versi cepat mencapai 0,951 pada BDC, 0,860 pada Iliev, dan 0,922 pada Shubha. "
+        "Kecepatan tersebut belum diukur pada ponsel. Penerapan di Indonesia masih memerlukan foto rumah tangga setempat dan pemeriksaan jalur penanganan oleh petugas."
     ),
     126: (
-        "Batas utama penelitian terletak pada protokol data. BDC digunakan berulang kali untuk memilih varian, sehingga xsrc 0,975 bersifat optimistis. Iliev memberi uji clustering terkunci, sedangkan Shubha baru mencakup 300 crop. Belum ada foto yang diambil langsung dari rumah tangga atau bank sampah di Indonesia. "
-        "Dari sisi metode, selisih CMRE terhadap INLP belum signifikan pada metrik utama, dan manfaat CMRE bergantung pada kekuatan model SSL acuan; dengan DINOv3-B, xsrc hanya 0,593. Informasi sumber masih terbaca oleh probe. Pada audit 100 seed, SCMax memilih K antara 13 dan 21; 27 seed dengan K sedikitnya 18 menghasilkan xsrc paling tinggi 0,794. Audit itu mengulang seed pada embedding tetap, bukan ekstraksi dan pemilihan model penuh. Bootstrap hierarki belum mencakup pelatihan ulang pipeline. "
-        "Selisih kecil antara xsrc v4 tersimpan dan hitung ulang belum diisolasi penyebab teknisnya. "
-        "Deteksi OOD memakai satu ambang global yang menandai 13% foto objek Bangladesh dari kelas dikenal. Hasil eksternal juga dipengaruhi kesesuaian definisi kelas: pemutar MP3 dan TV Iliev tidak selalu sepadan dengan kelompok BDC."
+        "Kami memakai BDC untuk memilih lebih dari 40 varian. Karena itu, xsrc BDC 0,975 cenderung optimistis. Protokol clustering Iliev dikunci sebelum data diunduh, sedangkan Shubha hanya berisi 300 crop. Data belum memuat foto langsung dari rumah tangga atau bank sampah Indonesia. "
+        "Selisih CMRE terhadap INLP pada metrik utama belum signifikan. Ketika DINOv3-H+ diganti DINOv3-B, xsrc turun menjadi 0,593. Probe masih dapat mengenali sumber foto setelah CMRE. "
+        "Dalam audit 100 seed, SCMax memilih K antara 13 dan 21. Sebanyak 27 seed dengan K sedikitnya 18 menghasilkan xsrc paling tinggi 0,794. Audit ini memakai embedding tetap. Bootstrap hierarki juga mempertahankan anggota cluster, sehingga keduanya belum mengukur variasi seluruh pipeline pada sampel baru. "
+        "Hasil hitung ulang v4 sedikit berbeda dari artefak tersimpan dan penyebab perbedaan fitur belum terisolasi. Ambang OOD global salah menandai 13% foto Bangladesh dari kelas dikenal. Pemutar MP3 dan TV Iliev juga tidak selalu sepadan dengan definisi kelas BDC."
     ),
     128: "PENUTUP",
     129: (
-        "Representasi visual pada data ini memang peka terhadap sumber foto: SigLIP2 dan CLIP memberi xsrc sekitar 0,37, sedangkan DINOv3-H+ mencapai 0,86 pada audit awal. "
-        "CMRE menaikkan xsrc fusi dari 0,524 menjadi 0,975; AMI partisi akhir pada sepuluh kelas BDC adalah 0,917. Perbaikan xsrc juga tampak pada Iliev (0,803 menjadi 0,885) dan Shubha (0,356 menjadi 0,956), sementara Office-Home menunjukkan kondisi tanpa perbaikan. "
-        "Median sembilan seed awal SCMax memilih K = 16. Audit 100 seed memberi median yang sama, tetapi partisi antar-seed hanya mencapai rerata ARI 0,861; kestabilan jumlah kelompok masih menjadi batas metode. Kelompok akhir memisahkan beberapa subtipe perangkat; hierarki centroid pascacluster berguna sampai penggabungan awal, sedangkan cabang atas tidak selalu sejalan dengan kategori penanganan. "
-        "Deteksi OOD kNN mencapai AUROC 0,994 pada Shubha dengan dua kelas baru dan tetap menghasilkan alarm palsu pada 13% foto Bangladesh dari kelas dikenal. "
-        "Dengan bukti saat ini, pipeline merupakan dasar eksplorasi kategori dan triase foto, belum pengganti penilaian petugas pada konteks Indonesia."
+        "SigLIP2 dan CLIP memberi xsrc sekitar 0,37 pada audit awal, sedangkan DINOv3-H+ mencapai 0,86. Pada fusi tiga encoder, CMRE menaikkan xsrc BDC dari 0,524 menjadi 0,975 dan menghasilkan AMI 0,917 pada sepuluh kelas berlabel. "
+        "xsrc Iliev naik dari 0,803 menjadi 0,885 dan Shubha dari 0,356 menjadi 0,956. Office-Home tetap sekitar 0,865. Kenaikan terbesar muncul pada data dengan bias sumber awal yang kuat. "
+        "Sembilan seed awal memberi median K = 16. Audit 100 seed mempertahankan median itu, tetapi ARI antarpasangan partisi hanya 0,861. Enam belas kelompok akhir memisahkan beberapa subtipe perangkat. Penggabungan centroid menjelaskan pasangan awal, sedangkan cabang atas belum mengikuti kategori penanganan. "
+        "Skor OOD kNN mencapai AUROC 0,994 pada Shubha yang memiliki dua kelas baru, sambil salah menandai 13% foto Bangladesh dari kelas dikenal. "
+        "Hasil ini mendukung pemakaian kelompok sebagai bahan pemeriksaan foto oleh petugas. Evaluasi belum mencakup foto rumah tangga Indonesia."
     ),
     130: (
-        "Pengujian berikutnya perlu mengumpulkan foto langsung dari rumah tangga dan bank sampah Indonesia, terutama perangkat penukar suhu dan foto tumpukan yang kurang terwakili. "
-        "Pemetaan kategori harus dikunci sebelum data tersebut dinilai agar estimasi transfer tidak kembali menjadi hasil pengembangan. "
-        "Ablasi yang memisahkan efek regresi, proyeksi residu, dan model acuan diperlukan untuk menjelaskan kontribusi CMRE. "
-        "Variasi K dapat diuji dengan mengulangi seluruh pipeline pada sampel baru, bukan hanya bootstrap centroid; ambang OOD per kelompok juga perlu dikalibrasi pada set pengembangan terpisah. "
-        "Untuk pemakaian pada perangkat terbatas, versi cepat SigLIP2 dan DINOv3 dapat menjadi titik awal distilasi serta pengukuran latensi yang sesungguhnya."
+        "Pengujian lanjutan perlu mengumpulkan foto rumah tangga dan bank sampah Indonesia, terutama perangkat penukar suhu dan tumpukan campuran. Pemetaan kategori harus ditetapkan sebelum foto itu dinilai. "
+        "Ablasi perlu memisahkan kontribusi regresi, proyeksi residu, dan pilihan model acuan. Untuk menilai kestabilan K, seluruh pipeline perlu diulang pada sampel citra baru. "
+        "Kalibrasi ambang OOD per kelompok memerlukan data pengembangan terpisah. Versi cepat SigLIP2 dan DINOv3 juga perlu diuji latensinya pada perangkat sasaran sebelum dipakai di lapangan."
     ),
     165: (
         "Kode reproduksi untuk ekstraksi fitur, clustering, dan evaluasi tersedia di "
@@ -534,8 +529,8 @@ def main():
         "tersimpan mencatat 0,975411. Partisi 3.792 citra utama identik (ARI 1,000), "
         "sementara enam dari 3.773 citra luar berubah penempatan centroid. Penyebab teknis "
         "selisih fitur kecil ini belum terisolasi. Metadata lama mencatat r = 65 dari indeks "
-        "ambang varians, tetapi PCA hanya menghitung 64 komponen. Dengan demikian, 64 arah "
-        "yang benar-benar diproyeksikan. Audit ini belum mengukur variasi dari ekstraksi "
+        "ambang varians, tetapi PCA hanya menghitung 64 komponen. Jumlah arah yang "
+        "diproyeksikan adalah 64. Audit ini belum mengukur variasi dari ekstraksi "
         "ulang, pengambilan sampel baru, atau pemilihan model."
     )
     note.paragraph_format.line_spacing = 1.0
