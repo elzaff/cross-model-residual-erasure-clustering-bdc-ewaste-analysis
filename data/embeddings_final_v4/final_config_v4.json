@@ -3,5 +3,8 @@
  "K": 16,
  "method": "Spectral-kNN",
  "r_siglip2": 65,
- "r_pecore": 65
+ "r_pecore": 65,
+ "effective_r_siglip2": 64,
+ "effective_r_pecore": 64,
+ "r_note": "Legacy r values are the search indices at the 50% variance threshold. PCA(64) exposes 64 components, so both projections used 64 directions."
 }

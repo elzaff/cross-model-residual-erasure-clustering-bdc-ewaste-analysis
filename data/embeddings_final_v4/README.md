@@ -17,3 +17,5 @@ Untuk mencoba algoritma clustering pada representasi final, gunakan `z_final_v4.
 Embedding AIMv2 diunduh dari volume `bdc-max` pada 26 September 2026. SHA-256 manifest di volume cocok dengan `items.csv` lokal. Hasil perbandingan fusi ada di `results/modal/aimv2_fusion_results.csv` dan `results/modal/aimv2_external_results.csv`.
 
 `assignments_final_v4.csv` menyimpan hasil partisi final sebagai pembanding.
+
+Catatan reproduksi: `final_config_v4.json` mempertahankan indeks ambang varians lama `r_siglip2 = r_pecore = 65`. Karena PCA hanya menghitung 64 komponen, proyeksi yang benar-benar diterapkan memakai 64 arah untuk keduanya (`effective_r_*`). Audit selisih hasil hitung ulang dicatat di `results/modal/aimv2_fusion_report.md`.
