@@ -15,7 +15,7 @@ r3 = lambda v: round(float(v), 3)
 mr = pd.read_csv(f"{R}/max_reps.csv").groupby("rep").xsrc_agree.mean()
 backbones = [dict(name=n, fam=f, xsrc=r3(mr[n])) for n, f in (
     ("DINOv3-H+", "ssl"), ("DINOv3-B", "ssl"), ("DINOv3-7B", "ssl"), ("DINOv3-L", "ssl"), ("DINOv2-L", "ssl"), ("ConvNeXt V2-H (IN-22k)", "sup"),
-    ("AIMv2-L", "vlm"), ("CLIP ConvNeXt-XXL", "vlm"), ("PE-Core-G", "vlm"), ("SigLIP2-giant", "vlm"), ("SigLIP2-So400m", "vlm"), ("CLIP-L/14", "vlm"))]
+    ("CLIP ConvNeXt-XXL", "vlm"), ("PE-Core-G", "vlm"), ("SigLIP2-giant", "vlm"), ("SigLIP2-So400m", "vlm"), ("CLIP-L/14", "vlm"))]
 
 f2 = pd.read_csv(f"{R}/final2_results.csv").set_index("method"); fx = pd.read_csv(f"{R}/fix_results.csv").set_index("method")
 il = pd.read_csv(f"{R}/iliev_results.csv").set_index("method"); sh = pd.read_csv(f"{R}/shubha_results.csv").set_index("method")

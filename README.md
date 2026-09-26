@@ -4,6 +4,8 @@
 
 # Unsupervised Discovery Kategori Sampah Elektronik dari Citra Multi-Sumber
 
+Naskah aktif: [PDF](paper/Karya_Ilmiah_BDC2026_revisi_gaya_BDC12.pdf) dan [DOCX](paper/Karya_Ilmiah_BDC2026_revisi_gaya_BDC12.docx). Naskah ini memakai pipeline final v4 dengan tiga encoder dan tanpa gambar sementara.
+
 **Cross-Model Residual Erasure (CMRE) + SCMax + Spectral Clustering + deteksi OOD kNN**
 Karya ilmiah babak semifinal **Big Data Challenge (BDC) Satria Data 2026**.
 
@@ -54,8 +56,6 @@ dan latar putih (0,39). Informasi sumber **tidak** hilang (probe sumber tetap 0,
 terhadap struktur ketetanggaan. Implementasi inti ada di [`code/ewaste_cmre.py`](code/ewaste_cmre.py), kurang dari 100 baris.
 
 ## Hasil utama
-
-Audit lanjutan AIMv2-L tersedia di [`results/modal/aimv2_fusion_report.md`](results/modal/aimv2_fusion_report.md). Fusi empat model mencapai xsrc 0,987 pada BDC, tetapi selisih terhadap v4 pada Iliev (+0,002; IK95% [-0,012; 0,015]) dan Shubha (+0,011; [0,000; 0,028]) belum menunjukkan kenaikan yang konsisten. Karena itu, pipeline final tetap v4. Embedding mentah asli dan flip terdapat di `data/embeddings_final_v4/emb_aimv2*.npy` dengan urutan `items.csv` yang sama; kode dan CSV audit ada di `code/pipeline/compare_aimv2_*.py` serta `results/modal/aimv2_*.csv`.
 
 **xsrc** (konsistensi lintas sumber) adalah proporsi foto dari sumber kedua yang masuk ke kelompok mayoritas citra produk
 (Kaan) untuk kelas yang sama, dirata-rata per kelas. Nilai 1 berarti pengelompokan tidak terpengaruh sumber foto.
@@ -124,7 +124,8 @@ didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di da
 │   ├── make_figures.py         gambar paper (Gambar 1–7) dari CSV hasil
 │   ├── make_r8_figures.py      Gambar 8–9: hierarki K = 13 → 16, heatmap kelompok × label
 │   ├── make_dashboard_data.py  membangun dashboard/data.js dari CSV hasil
-│   ├── build_paper.py          menyusun DOCX paper (butuh template resmi BDC, tidak disertakan)
+│   ├── revise_paper.py         menghasilkan naskah aktif dari DOCX sumber di paper/
+│   ├── build_paper.py          generator draf lama
 │   └── pipeline/               seluruh eksperimen, dijalankan di Modal (lihat di bawah)
 │       ├── modal_app.py        orkestrasi; setiap tahap = satu --stage
 │       ├── embed_*.py          ekstraksi fitur + statistik gaya piksel
@@ -137,7 +138,7 @@ didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di da
 │   ├── final_v4/               partisi final: assignments.csv, cluster_profile.csv, bootstrap_ci.csv
 │   ├── paper/                  tabel pendukung gambar
 │   └── r8/                     analisis tambahan (bootstrap berpasangan, pembanding, acuan, galeri bersih)
-├── paper/                      Karya_Ilmiah_BDC2026.pdf + figures/
+├── paper/                      naskah aktif revisi_gaya_BDC12; draf lama; figures/ arsip
 └── dashboard/                  dashboard presentasi statis (index.html + data.js + assets/)
 ```
 
