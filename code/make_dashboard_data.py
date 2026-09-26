@@ -23,7 +23,7 @@ oh = pd.read_csv(f"{R}/officehome_results.csv").set_index("method")
 ood_methods = pd.read_csv(f"{R}/fix2_results.csv").set_index("method")
 fb = pd.read_csv(f"{R}/r8/r8b_fast.csv").set_index("variant").loc["cepat CMRE(SigLIP2)+DINOv3"]  # fast variant without PE-Core-G
 datasets = [
-    dict(id="bdc", name="BDC", role="data pengembangan", n=3792, metric="xsrc 5 kelas (foto katalog Kaan vs foto HP Bangladesh), K = 16",
+    dict(id="bdc", name="BDC", role="data pengembangan", n=3792, metric="xsrc 5 kelas (citra produk Kaan vs foto objek Bangladesh), K = 16",
          raw=r3(f2.loc["FB fusi mentah sig+pe+dino", "xsrc_agree"]), dino=r3(fx.loc["BASE DINOv3-H+ saja K=16", "xsrc_agree"]),
          inlp=r3(f2.loc["FB INLP(sig)+INLP(pe)+INLP(dino)", "xsrc_agree"]), cmre=r3(f2.loc["FB CMRE(sig)+CMRE(pe)+dino [usulan]", "xsrc_agree"]),
          light=r3(fx.loc["BASE ringan CMRE(pe)+dinoH+ K=16", "xsrc_agree"]), ci="0,958 sampai 0,989", purity=0.992, fast=r3(fb.xsrc_BDC)),

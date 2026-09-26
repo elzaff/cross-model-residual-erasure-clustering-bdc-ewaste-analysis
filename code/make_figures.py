@@ -18,8 +18,8 @@ def crop(path, n, w=200): im = Image.open(path).convert("RGB"); return np.asarra
 
 # ---- Fig 1: sources and data characteristics
 fig = plt.figure(figsize=(W, W * 0.78)); gs = fig.add_gridspec(5, 2, height_ratios=[1, 1, 1, 1, 3.4], hspace=0.5, wspace=0.08)
-rows = [("bdc", "BDC (data utama)"), ("iliev", "Iliev (uji terkunci)"), ("kaan", "Kaan (katalog)"), ("shubha", "Shubha (uji segar)"),
-        ("bangla", "Bangladesh (foto HP)"), ("oh_product", "Office-Home Product"), ("giz", "GIZ (foto lapangan)"), ("oh_realworld", "Office-Home Real World")]
+rows = [("bdc", "BDC (data utama)"), ("iliev", "Iliev (uji terkunci)"), ("kaan", "Kaan (citra produk)"), ("shubha", "Shubha (uji segar)"),
+        ("bangla", "Bangladesh (foto objek)"), ("oh_product", "Office-Home Product"), ("giz", "GIZ (foto lapangan)"), ("oh_realworld", "Office-Home Real World")]
 for i, (k, t) in enumerate(rows):
     ax = fig.add_subplot(gs[i // 2, i % 2]); ax.imshow(crop(f"{PA}/src_{k}.jpg", 5)); ax.set_axis_off(); ax.set_title(t, fontsize=8, loc="left", pad=2)
 it = pd.read_csv(f"{R}/items.csv"); it["side"] = it[["width", "height"]].max(axis=1)
@@ -79,7 +79,7 @@ for j, (k, t) in enumerate((("raw", "(b) Fusi mentah: xsrc 0,52"), ("cmre", "(c)
                        edgecolor="none" if s == "kaan" else "black", linewidth=.3, label=nm[c] if s == "kaan" else None, rasterized=True)
     ax.set_xticks([]); ax.set_yticks([]); ax.set_title(t, loc="left")
     if j == 1: ax.legend(fontsize=7.5, loc="upper center", bbox_to_anchor=(-0.06, -0.03), ncol=5, markerscale=2)
-fig.text(0.5, 0.015, "warna = objek; bulat = foto katalog (Kaan); segitiga bergaris tepi = foto HP (Bangladesh)", ha="center", fontsize=7.5, style="italic")
+fig.text(0.5, 0.015, "warna = objek; bulat = citra produk (Kaan); segitiga bergaris tepi = foto objek (Bangladesh)", ha="center", fontsize=7.5, style="italic")
 save(fig, "fig3_bias")
 
 # ---- Fig 4: xsrc across evaluation sets
