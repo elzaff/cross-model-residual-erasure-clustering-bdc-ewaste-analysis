@@ -7,9 +7,7 @@ SCMax (K = 16) → Spectral-kNN → OOD kNN**. Input model hanya citra; label ha
 code/
   ewaste_cmre.py          implementasi inti yang ringkas (CMRE, fusi, clustering, OOD kNN) + uji mandiri
   reproduce.py            reproduksi partisi final di CPU dari z_final_v4.npy (< 1 menit, tanpa GPU/model)
-  make_r8_figures.py      gambar ronde 8: hierarki K=13→16, heatmap kelompok × label
   make_figures.py         seluruh gambar paper dari CSV hasil → paper_draft/fig/
-  build_paper.py          menyusun karya ilmiah ke template resmi BDC → paper_draft/Karya_Ilmiah_BDC2026.docx
   pipeline/               eksperimen lengkap (dijalankan di Modal; volume `bdc-max`)
     modal_app.py          orkestrasi; setiap tahap = satu `--stage`
     embed_kg.py, embed_extra.py, embed_new.py   ekstraksi fitur (TTA flip) dan statistik gaya piksel
@@ -48,7 +46,7 @@ modal run --detach modal_app.py --stage d1             # TURTLE/TEMI/DECMCV (L4)
 modal run --detach modal_app.py --stage gallery        # galeri tanpa wajah
 modal run --detach modal_app.py --stage bench          # throughput embedding di L4
 modal volume get bdc-max /out ../../results/modal      # unduh hasil
-cd .. && python make_figures.py && python build_paper.py
+cd .. && python make_figures.py
 python ewaste_cmre.py                                   # uji mandiri implementasi inti
 python reproduce.py                                     # reproduksi CPU: ARI 1,0 vs submisi, xsrc 0,975
 ```
@@ -77,5 +75,3 @@ Lisensi kode: MIT (`LICENSE`). Dependensi lokal: `requirements.txt`; image Modal
 ## Audit tambahan
 
 Audit sensitivitas SCMax memakai 100 seed pada fitur CMRE yang sama. Median K = 16, modus K = 17, dan K = 16 terpilih 20/100 kali. xsrc hybrid 0.923 +/- 0.098; NMI eksternal 0.854 +/- 0.022; ARI antarpasangan partisi 0.861 +/- 0.110. Ini menguji variasi seed pada data tetap, bukan 100 sampel uji independen. Setelah batch hasil tersedia di results/modal, jalankan python code/pipeline/summarize_scmax_100.py untuk membuat ringkasan. Hasil lengkap ada di [laporan](../results/modal/scmax_100_report.md) dan [CSV](../results/modal/scmax_results_100.csv).
-
-Hierarki agglomerative untuk partisi 16 kelompok dibuat post hoc dengan `python code/try_hierarchy.py`; hasil level dan merge tersimpan di `results/modal/hierarchy/`.

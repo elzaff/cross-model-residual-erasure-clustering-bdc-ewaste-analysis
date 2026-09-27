@@ -1,10 +1,5 @@
-> **Repositori PRIVAT tim.** Berisi seluruh hasil untuk dianalisis: semua CSV eksperimen (`results/modal/`, termasuk
-> ronde 8 di `results/modal/r8/`), galeri, generator gambar/dashboard/paper, draf paper (PDF + DOCX di `paper/`), dan catatan
-> eksperimen lengkap (`docs/RECAP.md`). Versi publik: [metodologi](https://github.com/elzaff/cross-model-residual-erasure-clustering-bdc-ewaste) dan [dashboard](https://elzaff.github.io/cross-model-residual-erasure-clustering-bdc-ewaste-dashboard/).
-
 # Unsupervised Discovery Kategori Sampah Elektronik dari Citra Multi-Sumber
 
-Naskah aktif: [PDF](paper/Karya_Ilmiah_BDC2026_revisi_gaya_BDC12.pdf) dan [DOCX](paper/Karya_Ilmiah_BDC2026_revisi_gaya_BDC12.docx). Naskah ini memakai pipeline final v4 dengan tiga encoder dan tanpa gambar sementara.
 
 **Catatan audit 27 September:** angka audit 100 seed SCMax dalam PDF/DOCX tersebut masih versi sebelum koreksi seed. Untuk angka yang sudah diuji ulang, gunakan [laporan audit kode](results/classic/author_code_audit.md) sampai naskah diperbarui.
 
@@ -105,7 +100,6 @@ didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di da
 - 15 dari 16 kelompok berisi ≥ 90% satu label BDC.
 - Kelompok **laptop (C9)** tidak tercantum pada label panitia (berkasnya berlabel "keyboard"). Temuan ini tervalidasi di Iliev:
   96,7% foto laptop masuk ke C9.
-- Tingkat kasar K = 13 dipecah menjadi K = 16: 14 dari 16 kelompok mewarisi ≥ 96% citranya dari satu induk.
 - Uji permutasi WEEE: kategori EU-6 crop Iliev yang dikenali cocok dengan kategori grup kelompoknya pada 79% kasus,
   dibandingkan 19% untuk penggabungan acak (p < 0,001).
 
@@ -118,7 +112,6 @@ didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di da
 | Aturan pemilihan acuan tanpa label (R² ridge) | Dua acuan teratas (DINOv3-7B, DINOv3-H+) = dua xsrc terbaik (0,983; 0,975); acuan berlabel gagal (0,384) |
 | Sensitivitas r (jumlah arah dihapus) | 0,97–0,99 untuk r = 16–64; turun di luar rentang itu (r = 4: 0,449; r = 128: 0,821) |
 | Sensitivitas α ridge | 0,975–0,983 untuk α = 0,01–1; turun pada α ≥ 10 |
-| Versi cepat tanpa PE-Core-G | ~20 citra/detik di GPU L4 (6× lebih cepat), xsrc 0,951 / 0,860 / 0,922 |
 | Waktu setelah ekstraksi fitur | sekitar 1 detik CPU untuk 3.792 citra |
 
 ## Struktur repositori
@@ -128,10 +121,7 @@ didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di da
 │   ├── ewaste_cmre.py          implementasi inti: CMRE, fusi, clustering, OOD kNN (+ uji mandiri)
 │   ├── reproduce.py            reproduksi partisi final di CPU (< 1 menit, tanpa GPU/model)
 │   ├── make_figures.py         gambar paper (Gambar 1–7) dari CSV hasil
-│   ├── make_r8_figures.py      Gambar 8–9: hierarki K = 13 → 16, heatmap kelompok × label
 │   ├── make_dashboard_data.py  membangun dashboard/data.js dari CSV hasil
-│   ├── revise_paper.py         menghasilkan naskah aktif dari DOCX sumber di paper/
-│   ├── build_paper.py          generator draf lama
 │   └── pipeline/               seluruh eksperimen, dijalankan di Modal (lihat di bawah)
 │       ├── modal_app.py        orkestrasi; setiap tahap = satu --stage
 │       ├── embed_*.py          ekstraksi fitur + statistik gaya piksel
@@ -144,7 +134,7 @@ didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di da
 │   ├── final_v4/               partisi final: assignments.csv, cluster_profile.csv, bootstrap_ci.csv
 │   ├── paper/                  tabel pendukung gambar
 │   └── r8/                     analisis tambahan (bootstrap berpasangan, pembanding, acuan, galeri bersih)
-├── paper/                      naskah aktif revisi_gaya_BDC12; draf lama; figures/ arsip
+├── paper/figures/              gambar yang dipakai di paper
 └── dashboard/                  dashboard presentasi statis (index.html + data.js + assets/)
 ```
 
@@ -157,7 +147,6 @@ pip install -r requirements.txt
 python code/reproduce.py        # ARI 1,0000 vs partisi final; xsrc 0,975; laju OOD per sumber
 python code/ewaste_cmre.py      # uji mandiri implementasi inti
 python code/make_figures.py     # gambar paper → paper_draft/fig/
-python code/make_r8_figures.py  # Gambar 8–9 → results/modal/r8/
 ```
 
 Dashboard presentasi:
@@ -229,8 +218,6 @@ Model: [SigLIP2-So400m](https://huggingface.co/google/siglip2-so400m-patch16-naf
 ## Audit sensitivitas SCMax dengan 100 seed
 
 Audit ulang dengan pengaturan seed yang sama seperti kode penulis menjalankan SCMax 100 kali pada fitur CMRE yang tetap. K terpilih 13-21 (median **16,5**, modus 17), dan K=16 terpilih 20/100 kali. xsrc hibrida SCMax untuk K lalu Spectral rata-rata **0,919** (SD 0,103; median 0,975), sedangkan xsrc partisi SCMax sendiri 0,731 (SD 0,127). NMI objek eksternal hibrida 0,853 (SD 0,024), dan ARI antarpasangan partisi 0,860 (SD 0,110; 4.950 pasangan). Ini mengukur sensitivitas seed pada data tetap, bukan 100 sampel uji independen. K=16 tetap merupakan median sembilan seed yang dipakai untuk memilih partisi final. Rincian: [laporan audit ulang](results/modal/scmax_100_source_audit_report.md), [hasil CSV](results/modal/scmax_results_100_source_audit.csv), dan [audit kode penulis](results/classic/author_code_audit.md).
-
-Hierarki agglomerative dibuat post hoc di atas partisi final 16 kelompok. Level K=16, 13, 12, dan 8 beserta evaluasi dan merge tersedia di [results/modal/hierarchy/](results/modal/hierarchy/).
 
 ## Keterbatasan
 
