@@ -64,13 +64,13 @@ fig = plt.figure(figsize=(W, W * 0.78)); gs = fig.add_gridspec(2, 2, height_rati
 ax = fig.add_subplot(gs[0, :]); y = np.arange(len(models))
 ax.barh(y, [mr[m] for m, _ in models], color=[C[f] for _, f in models]); ax.set_yticks(y, [m.replace(" (IN-22k)", "") for m, _ in models], fontsize=7.5); ax.invert_yaxis()
 for i, (m, _) in enumerate(models): ax.text(mr[m] + .01, i, f"{mr[m]:.2f}".replace(".", ","), va="center", fontsize=7)
-ax.set_xlim(0, 1); ax.set_xlabel("Konsistensi lintas sumber (xsrc) — model tunggal tanpa perlakuan")
+ax.set_xlim(0, 1); ax.set_xlabel("Konsistensi lintas sumber (xsrc), model tunggal tanpa perlakuan")
 ax.legend(handles=[Patch(color=C["ssl"], label="Self-supervised (tanpa bahasa)"), Patch(color=C["sup"], label="Terawasi"), Patch(color=C["vlm"], label="Visi-bahasa")],
           loc="lower right", fontsize=7.5)
 ax.set_title("(a) Model visi-bahasa cenderung mengelompokkan menurut sumber foto", loc="left")
 ts = pd.read_csv(f"{PA}/tsne.csv"); cols = {"battery": "#e45756", "keyboard": "#4c78a8", "mobile": "#54a24b", "mouse": "#f58518", "pcb": "#b279a2"}
 nm = {"battery": "baterai", "keyboard": "keyboard", "mobile": "ponsel", "mouse": "mouse", "pcb": "PCB"}
-for j, (k, t) in enumerate((("raw", "(b) Fusi mentah: xsrc 0,52"), ("cmre", "(c) Setelah CMRE: xsrc 0,98"))):
+for j, (k, t) in enumerate((("raw", "(b) Fusi mentah: xsrc 0,524"), ("cmre", "(c) Setelah CMRE: xsrc 0,975"))):
     ax = fig.add_subplot(gs[1, j])
     for c, col in cols.items():
         for s, mk in (("kaan", "o"), ("bangla", "^")):
@@ -87,37 +87,33 @@ sets = ["BDC\n(pengembangan)", "Iliev\n(uji terkunci)", "Shubha\n(uji segar)", "
 vals = {"Fusi mentah": [0.524, 0.803, 0.356, 0.865], "DINOv3-H+ saja": [0.758, 0.755, 0.889, 0.761], "INLP ×3 (butuh proksi)": [0.975, 0.887, 0.972, 0.870],
         "CMRE usulan (tanpa proksi)": [0.975, 0.885, 0.956, 0.864]}
 cc = [C["raw"], C["dino"], C["inlp"], C["cmre"]]
+CI = [(0.958, 0.989), (0.864, 0.908), (0.924, 0.983), (0.864, 0.864)]  # IK95% bootstrap CMRE; Office-Home tanpa IK
 fig, ax = plt.subplots(figsize=(W, W * 0.36)); x = np.arange(4); bw = 0.2
 for i, (k, v) in enumerate(vals.items()):
     ax.bar(x + (i - 1.5) * bw, v, bw, color=cc[i], label=k)
-    for xi, vi in zip(x + (i - 1.5) * bw, v): ax.text(xi, vi + .012, f"{vi:.2f}".replace(".", ","), ha="center", fontsize=6.3, rotation=90)
-ax.set_xticks(x, sets); ax.set_ylim(0, 1.13); ax.set_ylabel("xsrc (↑ lebih baik)"); ax.legend(ncol=4, fontsize=7.3, loc="upper center", bbox_to_anchor=(0.5, 1.16))
+    ci = CI if k.startswith("CMRE") else None  # absolute bootstrap CI exists for the proposed method only
+    if ci: ax.errorbar(x + (i - 1.5) * bw, v, yerr=[[a - l for a, (l, h) in zip(v, ci)], [h - a for a, (l, h) in zip(v, ci)]], fmt="none", ecolor="#333333", elinewidth=.7, capsize=1.5)
+    for j, (xi, vi) in enumerate(zip(x + (i - 1.5) * bw, v)):
+        top = ci[j][1] if ci else vi
+        ax.text(xi, top + .012, f"{vi:.3f}".replace(".", ","), ha="center", fontsize=6, rotation=90)
+ax.set_xticks(x, sets); ax.set_ylim(0, 1.2); ax.set_ylabel("xsrc (↑ lebih baik)"); ax.legend(ncol=4, fontsize=7.3, loc="upper center", bbox_to_anchor=(0.5, 1.16))
 save(fig, "fig4_results")
 
-# ---- Fig 5: K choice and parameter robustness
-ks, fx, al = pd.read_csv(f"{PA}/ksweep.csv"), pd.read_csv(f"{R}/fix_results.csv"), pd.read_csv(f"{PA}/algo16.csv")
-fig, axs = plt.subplots(2, 2, figsize=(W, W * 0.8)); plt.subplots_adjust(hspace=0.8, wspace=0.32)
-ax = axs[0, 0]; ax.plot(ks.K, ks.xsrc_agree, "-o", ms=3, color=C["cmre"], label="xsrc"); ax.plot(ks.K, ks.purity_bdc, "-s", ms=3, color=C["dino"], label="purity BDC")
-ax.plot(ks.K, ks.sil * 2, "--", color="#666666", label="silhouette ×2"); ax.set_ylim(0.35, 1.04); ax.set_xlabel("Jumlah cluster K")
-picks = pd.Series([13, 16, 13, 16, 19, 16, 15, 19, 19]).value_counts()
-ax.scatter(picks.index, [0.4] * len(picks), s=picks.values * 28, marker="v", color=C["light"], label="pilihan SCMax (ukuran = jumlah seed)", zorder=3)
-ax.axvline(16, color=C["cmre"], lw=.8, ls=":"); ax.legend(fontsize=6.5, loc="upper center", bbox_to_anchor=(.5, -.28), ncol=2)
-ax.set_title("(a) Pemilihan K tanpa label (SCMax)", loc="left")
-rr = fx[fx.method.str.match(r"R r=")]; ax = axs[0, 1]
-ax.plot(rr.r, rr.xsrc_agree, "-o", ms=3.5, color=C["cmre"]); ax.set_xscale("log", base=2); ax.axvspan(16, 64, color=C["cmre"], alpha=.1)
-ax.set_xticks([4, 8, 16, 32, 64, 128, 256], ["4", "8", "16", "32", "64", "128", "256"]); ax.set_ylim(0.4, 1.02)
-ax.set_xlabel("Jumlah arah residu yang dihapus (r)"); ax.set_ylabel("xsrc")
-ax.text(32, 0.5, "plateau\nr = 16–64", ha="center", fontsize=7.5, color=C["cmre"]); ax.set_title("(b) Sensitivitas parameter CMRE", loc="left")
-ax = axs[1, 0]; a = al.set_index("method").loc[["Spectral-kNN nn=15 (v4)", "K-Means", "Agglomerative-Ward", "GMM (diag)"]]; x = np.arange(4)
-for i, (col, nmx, c) in enumerate((("xsrc_agree", "xsrc", C["cmre"]), ("purity_bdc", "purity BDC", C["dino"]), ("ext_obj_nmi", "NMI objek", C["inlp"]))):
-    ax.bar(x + (i - 1) * .26, a[col], .26, color=c, label=nmx)
-ax.set_xticks(x, ["Spectral\n(usulan)", "K-Means", "Ward", "GMM"], fontsize=7.5); ax.set_ylim(0.6, 1.05)
-ax.legend(fontsize=6.5, ncol=3, loc="upper center", bbox_to_anchor=(.5, 1.13)); ax.set_title("(c) Perbandingan algoritma (K = 16)", loc="left", pad=14)
-ax = axs[1, 1]; nn = al[al.method.str.startswith("Spectral")].copy(); nn["nn"] = nn.method.str.extract(r"nn=(\d+)")[0].astype(int); nn = nn.sort_values("nn")
-ax.plot(nn.nn, nn.xsrc_agree, "-o", ms=3.5, color=C["cmre"], label="xsrc"); ax.plot(nn.nn, nn.purity_bdc, "-s", ms=3.5, color=C["dino"], label="purity BDC")
-ax.plot(nn.nn, nn.ari_v4, "-^", ms=3.5, color="#666666", label="ARI thd. partisi final"); ax.set_ylim(0.6, 1.02); ax.set_xlabel("n_neighbors graf kNN")
-ax.legend(fontsize=6.5, loc="lower right"); ax.set_title("(d) Sensitivitas graf Spectral", loc="left")
-save(fig, "fig5_params")
+# ---- Fig 5: stability of the K choice (100 SCMax seeds) and of the final 16 clusters
+sc = pd.read_csv(f"{R}/scmax_results_100_source_audit.csv"); kv = sc.K_scmax.value_counts().sort_index()
+bk = pd.read_csv(f"{R}/scmax_hierarchy_audit/native_vs_spectral_by_K.csv").set_index("K_scmax")
+jc = pd.read_csv(f"{R}/fix2_jaccard.csv").sort_values("cluster")
+fig, axs = plt.subplots(1, 2, figsize=(W, W * 0.36), gridspec_kw={"width_ratios": [1, 1.4], "wspace": 0.75})
+ax = axs[0]; ax.bar(kv.index, kv.values, color=C["inlp"], width=.7)
+ax.axvline(16, color="#333333", lw=.8, ls=":"); ax.set_xticks(kv.index); ax.set_xlabel("K pilihan SCMax"); ax.set_ylabel("Jumlah seed (dari 100)")
+ax2 = ax.twinx(); ax2.plot(bk.index, bk.spectral_xsrc_mean, "-o", ms=3, color=C["cmre"]); ax2.set_ylim(0.5, 1.02)
+ax2.set_ylabel("xsrc Spectral pada K", color=C["cmre"]); ax2.spines["right"].set_visible(True); ax2.tick_params(axis="y", colors=C["cmre"])
+ax.set_title("(a) Pilihan K pada 100 seed SCMax", loc="left")
+ax = axs[1]; ax.bar(jc.cluster, jc.jaccard_mean, color=[C["cmre"] if v < .85 else C["dino"] for v in jc.jaccard_mean])
+ax.axhline(.85, color="#666666", lw=.8, ls="--"); ax.text(15.6, .855, "0,85", fontsize=6.5, ha="right", va="bottom", color="#666666")
+ax.set_xticks(jc.cluster, [str(c) for c in jc.cluster], fontsize=7); ax.set_xlabel("Kelompok (C0–C15)"); ax.set_ylim(0.5, 1.02); ax.set_ylabel("Jaccard bootstrap")
+ax.set_title("(b) Kestabilan anggota tiap kelompok (K = 16)", loc="left")
+save(fig, "fig5_stability")
 
 # ---- Fig 6: cluster gallery (5 representative images per cluster)
 names = ["C0 · Aki (timbal-asam)", "C1 · Baterai pack laptop", "C2 · Turntable", "C3 · TV/monitor CRT", "C4 · Baterai ponsel/kamera", "C5 · Pemutar CD/radio",

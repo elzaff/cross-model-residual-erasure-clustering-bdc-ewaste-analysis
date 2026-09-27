@@ -72,6 +72,10 @@ terhadap struktur ketetanggaan. Implementasi inti ada di [`code/ewaste_cmre.py`]
 - Purity BDC **0,992**, ARI **1,00** antara partisi final K=16 dan pengulangan yang memilih K=16, NMI objek 0,859.
 - **CMRE setara INLP tanpa merancang proksi gaya apa pun.** Uji bootstrap berpasangan (2.000 ulangan) menunjukkan selisih
   terhadap INLP tidak signifikan, sedangkan selisih terhadap fusi mentah dan DINOv3 saja signifikan (p < 0,001) pada ketiga set.
+- INLP di atas memakai style proxy yang dirancang setelah bias resolusi dan latar diketahui. Dengan automatic proxy
+  (3 cluster K-Means pada statistik gaya AdaIN), INLP hanya mencapai xsrc 0,733 pada fusion SigLIP2 + DINOv3, sedangkan CMRE 0,951.
+- GMM, K-Means, DECMCV, dan TURTLE mencapai NMI objek eksternal lebih tinggi dari Spectral (0,948, 0,908, 0,894, 0,882 vs 0,859),
+  tetapi xsrc keempatnya lebih rendah (0,79–0,95). Spectral dipilih karena xsrc adalah kriteria utama.
 - Pada Office-Home, yang fiturnya memang tidak bias, CMRE tidak menambah kinerja tetapi juga tidak merusak.
 
 ### Deteksi kategori di luar cakupan (OOD kNN)

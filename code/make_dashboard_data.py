@@ -149,14 +149,22 @@ for key, name in (("BDC", "BDC"), ("iliev", "Iliev"), ("shubha", "Shubha")):
     rows = rt[(rt.set == key) & rt.m.isin(RN)]
     s2[name] = [dict(name=RN[a.m], xsrc=r3(a.xsrc10_locked if key == "iliev" else a.xsrc), leak=r3(a.leak_cmi)) for a in rows.itertuples()]
     c = cip.loc[key]; s2[name + "_ci"] = [r3(c.delta_epo_minus_cmre), r3(c.delta_lo), r3(c.delta_hi)]
-dv = pd.concat([pd.read_csv(f"{C}/divide_source_audit.csv"), pd.read_csv(f"{C}/divide_debiased_views.csv")])
-dv = dv[(dv.set == "BDC") & dv.method.str.contains("DIVIDE")].groupby("method").xsrc.mean()
+# DIVIDE and the recent baselines: Modal rerun with external object NMI (results/classic/nmi_out, ext_nmi_fill.csv)
+dvn = pd.read_csv(f"{C}/nmi_out/divide_ext_nmi.csv").groupby("views")[["xsrc_BDC", "ext_obj_nmi"]].mean()
+d1n = pd.read_csv(f"{C}/nmi_out/d1_ext_nmi.csv").groupby("method").ext_obj_nmi.mean()
+fill = pd.read_csv(f"{C}/ext_nmi_fill.csv").set_index("method").ext_obj_nmi
 ct = pd.read_csv(f"{C}/ctgl_results.csv").set_index(["set", "method"]).xsrc
-s3 = ([dict(name=n, xsrc=r3(al.loc[k, "xsrc_agree"]), group="klasik") for n, k in (("Spectral (usulan)", "Spectral-kNN nn=15 (v4)"),
+s3 = ([dict(name=n, xsrc=r3(al.loc[k, "xsrc_agree"]), nmi=r3(al.loc[k, "ext_obj_nmi"]), group="klasik") for n, k in (("Spectral (usulan)", "Spectral-kNN nn=15 (v4)"),
        ("K-Means", "K-Means"), ("GMM", "GMM (diag)"), ("Ward", "Agglomerative-Ward"))]
-      + [dict(name=b["name"], xsrc=b["xsrc"], group="terbaru", coverage=b["coverage"]) for b in extra["baselines"][1:]]
-      + [dict(name="DIVIDE (2024)", xsrc=r3(dv.max()), lo=r3(dv.min()), group="terbaru"),
-         dict(name="CTGL (2025)", xsrc=r3(ct.loc[("BDC", "CMRE -> CTGL")]), group="terbaru")])
+      + [dict(name=b["name"], xsrc=b["xsrc"], nmi=r3(d1n[b["name"]]), group="terbaru", coverage=b["coverage"])
+         for b in extra["baselines"][1:]]
+      + [dict(name="DIVIDE (2024)", xsrc=r3(dvn.xsrc_BDC.max()), lo=r3(dvn.xsrc_BDC.min()),
+              nmi=r3(dvn.ext_obj_nmi.max()), nmi_lo=r3(dvn.ext_obj_nmi.min()), group="terbaru"),
+         dict(name="CTGL (2025)", xsrc=r3(ct.loc[("BDC", "CMRE -> CTGL")]), nmi=r3(fill["CTGL"]), group="terbaru")])
+# INLP with the researcher-designed proxy vs an automatic AdaIN proxy (two-model fusion) and CMRE on that same fusion
+es = pd.read_csv(f"{R}/extra_style.csv").set_index("rep").xsrc_agree
+s2["inlp"] = dict(researcher=r3(f2.loc["FB INLP(sig)+INLP(pe)+INLP(dino)", "xsrc_agree"]),
+                  auto2=r3(es["Fusi (INLP gaya-otomatis keduanya)"]), cmre2=r3(fb.xsrc_BDC))
 sc = pd.read_csv(f"{R}/scmax_results_100_source_audit.csv")
 kdist = [dict(k=int(k), n=int(len(g)), xsrc=r3(g.hybrid_xsrc_agree.mean())) for k, g in sc.groupby("K_scmax")]
 kp = pd.read_csv(f"{C}/grid_k_pick.csv"); kp = kp[kp.criterion != "PS>=0.8"]
