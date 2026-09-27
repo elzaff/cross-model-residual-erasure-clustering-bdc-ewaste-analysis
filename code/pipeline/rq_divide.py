@@ -14,7 +14,7 @@ from sklearn.metrics import adjusted_rand_score as ari
 from sklearn.preprocessing import StandardScaler
 import rq1_metrics as metrics
 from common import load_items
-from rq_metrics2 import evaluate, partition
+from rq_metrics2 import evaluate, inlp_x, partition
 from rq_ext_metrics import REFS, ext_scores, load_ext
 from rq_scmax import scmax
 
@@ -65,10 +65,11 @@ def build():
     flip = ROOT / "data" / "embeddings_final_v4" / "emb_dinov3hp_flip.npy"
     assert hashlib.sha256(flip.read_bytes()).hexdigest() == "f4b6f04158f1d3965460e77156669d2a281754b8000ff69299a7a1d756383268", \
         "DINOv3 flip embedding differs from the frozen final-v4 input"
-    items = load_items(); main0, _, lab0, src0, _, shared0 = metrics.setup(items); N = len(items)
+    items = load_items(); main0, style0, lab0, src0, _, shared0 = metrics.setup(items); N = len(items)
     (Xi, li), (Xs, ls) = load_ext("iliev"), load_ext("shubha")
     X = {k: np.vstack([Xi[k], Xs[k][N:]]) for k in Xi}; ni, ns = len(li), len(ls)
     return dict(X=X, main=np.r_[main0, np.zeros(ni + ns, bool)], lab=np.r_[lab0, li, ls],
+                style=np.r_[style0, np.full(ni + ns, style0[0])],  # proxy only read on main rows (INLP fit)
                 src=np.r_[np.where(main0, "bdc", src0), np.full(ni, "iliev"), np.full(ns, "shubha")],
                 shared=np.r_[shared0, np.zeros(ni + ns, bool)])
 
@@ -93,10 +94,14 @@ def main():
         pd.DataFrame(rows).round(4).to_csv(OUT, index=False)
     for ref, x in (("v4: CMRE -> Spectral", fuse(*cm, dino)), ("mentah -> Spectral", fuse(sig, pe, dino))):
         y, z = partition(x, main, 16); add(ref, 16, 0, y, z)
-    for tag, v1 in (("mentah", fuse(sig, pe)), ("CMRE", fuse(*cm))):
-        ys = {}
+    # DIVIDE keeps what the two views share, so the views must both be debiased for the shared part to be the object.
+    views = {"mentah": lambda: [fuse(sig, pe), dino], "CMRE": lambda: [fuse(*cm), dino],
+             "CMRE-VLM": lambda: cm,  # (a) CMRE(SigLIP2) vs CMRE(PE), no DINO view
+             "CMRE+INLPdino": lambda: [fuse(*cm), inlp_x(dino, main, S["style"])]}  # (b) DINO view debiased too
+    for tag in os.environ.get("DIVIDE_VIEWS", "mentah,CMRE").split(","):
+        ys, vv = {}, views[tag]()
         for seed in SEEDS:
-            z = divide_embed([v1, dino], main, seed)
+            z = divide_embed(vv, main, seed)
             choices = [(16, "K=16")]
             if INCLUDE_SCMAX:
                 picks = [max(scmax(z[main], s), key=lambda L: L["nnc"])["K"] for s in SCMAX_SEEDS]

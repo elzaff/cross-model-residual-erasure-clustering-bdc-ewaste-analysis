@@ -1,0 +1,11 @@
+method,category,phone_n,match_n
+K16,battery,87,80
+K16,keyboard,79,79
+K16,mobile,104,102
+K16,mouse,50,50
+K16,pcb,129,126
+automatic_split,battery,87,0
+automatic_split,keyboard,79,79
+automatic_split,mobile,104,100
+automatic_split,mouse,50,50
+automatic_split,pcb,129,125
