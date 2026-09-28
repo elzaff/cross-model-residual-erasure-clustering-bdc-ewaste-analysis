@@ -1,4 +1,4 @@
-# Kode — Semifinal BDC Satria Data 2026: clustering citra e-waste yang tahan bias sumber foto
+# Kode: Cross-Model Residual Erasure untuk Pengelompokan Sampah Elektronik tanpa Label yang Tahan Bias Sumber Foto
 
 Pipeline final: **CMRE(SigLIP2-So400m | DINOv3-H+) + CMRE(PE-Core-G | DINOv3-H+) + DINOv3-H+ → PCA-32 →
 SCMax (K = 16) → Spectral-kNN → OOD kNN**. Input model hanya citra; label hanya dipakai untuk evaluasi.
@@ -13,7 +13,7 @@ code/
     embed_kg.py, embed_extra.py, embed_new.py   ekstraksi fitur (TTA flip) dan statistik gaya piksel
     common.py, rq1_metrics.py                   loader, PCA, metrik (xsrc, purity, NMI kondisional)
     rq_max.py             audit 17 representasi (H1)
-    rq_final2.py          pembanding adil (INLP, LEACE, fusi mentah) dan kontrol data MetaCLIP vs Web-DINO
+    rq_final2.py          pembanding adil (INLP, LEACE, raw fusion) dan kontrol data MetaCLIP vs Web-DINO
     rq_scmax.py           pemilihan K dengan SCMax (kode resmi di scmax/, lisensi MIT)
     rq_fix.py, rq_fix2.py uji ketahanan: baseline, probe, sapuan r / n_neighbors / K, Jaccard, OOD kNN
     prep_new.py           menyiapkan set validasi (Iliev, Shubha, Office-Home) dengan protokol terkunci

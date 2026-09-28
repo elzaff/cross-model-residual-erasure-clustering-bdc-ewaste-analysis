@@ -1,15 +1,16 @@
-# Unsupervised Discovery Kategori Sampah Elektronik dari Citra Multi-Sumber
+# Cross-Model Residual Erasure untuk Pengelompokan Sampah Elektronik tanpa Label yang Tahan Bias Sumber Foto
 
 
 **Catatan audit 27 September:** angka audit 100 seed SCMax dalam PDF/DOCX tersebut masih versi sebelum koreksi seed. Untuk angka yang sudah diuji ulang, gunakan [laporan audit kode](results/classic/author_code_audit.md) sampai naskah diperbarui.
 
-**Cross-Model Residual Erasure (CMRE) + SCMax + Spectral Clustering + deteksi OOD kNN**
+**Cross-Model Residual Erasure (CMRE) + SCMax + Spectral clustering + deteksi out-of-distribution (OOD)**
 Karya ilmiah babak semifinal **Big Data Challenge (BDC) Satria Data 2026**.
 
-Foto e-waste datang dari sumber yang sangat beragam: citra produk berlatar putih, foto objek berlatar beragam, sampai foto lapangan di
-pengepul. Kami menemukan bahwa model fondasi visi-bahasa (SigLIP2, PE-Core, CLIP) cenderung mengelompokkan foto menurut
-**cara foto diambil**, bukan menurut **bendanya**. Repositori ini berisi pipeline clustering tanpa label yang mengurangi bias
-sumber foto tersebut, beserta semua hasil, gambar, dashboard, dan kode untuk mereproduksinya.
+Latar dan resolusi foto dapat membuat sampah elektronik yang sejenis terpisah saat dikelompokkan tanpa label. Kami menguji
+3.792 citra BDC dengan embedding SigLIP2, Perception Encoder, dan DINOv3. CMRE memproyeksikan keluar arah dominan dari bagian
+embedding vision-language yang tidak dapat diprediksi DINOv3, tanpa label objek atau style proxy. SCMax memilih jumlah cluster,
+Spectral clustering membentuk partisi, dan jarak tetangga terdekat menandai citra di luar cakupan cluster. Repositori ini berisi
+kode, hasil, dan gambar untuk mereproduksi paper.
 
 - **Input model hanya citra.** Tidak ada teks, caption, prompt, atau label kelas yang dipakai untuk membentuk kelompok.
 - **Label hanya untuk evaluasi**, dihitung setelah clustering selesai. Label data uji panitia tidak pernah dibaca.
@@ -47,33 +48,34 @@ PE-Core-G ──────┤                          │
    16 kelompok + skor OOD kNN (jarak ke tetangga ke-10, ambang persentil 95)
 ```
 
-CMRE (*Cross-Model Residual Erasure*): bagian embedding visi-bahasa yang tidak dapat diprediksi dari model *self-supervised*
+CMRE (*Cross-Model Residual Erasure*): bagian embedding vision-language yang tidak dapat diprediksi dari model *self-supervised*
 diuraikan dengan PCA, lalu arah-arah utamanya diproyeksikan keluar. Arah ini berkorelasi dengan resolusi foto (|ρ| hingga 0,68)
 dan latar putih (0,39). Informasi sumber **tidak** hilang (probe sumber tetap 0,96–0,99); yang berkurang adalah dominasinya
 terhadap struktur ketetanggaan. Implementasi inti ada di [`code/ewaste_cmre.py`](code/ewaste_cmre.py), kurang dari 100 baris.
 
-## Hasil utama
+## Hasil dan pembahasan
 
 **xsrc** (konsistensi lintas sumber) adalah proporsi foto dari sumber kedua yang masuk ke kelompok mayoritas citra produk
 (Kaan) untuk kelas yang sama, dirata-rata per kelas. Nilai 1 berarti pengelompokan tidak terpengaruh sumber foto.
 
-| Set data | Peran | Fusi mentah | DINOv3-H+ saja | INLP ×3 (butuh proksi) | **CMRE (usulan)** |
+| Set data | Peran | Raw fusion | DINOv3-H+ saja | INLP×3 (style proxy peneliti) | **CMRE (usulan)** |
 |---|---|---|---|---|---|
 | BDC, 5 kelas (citra produk vs foto objek berlatar beragam) | pengembangan | 0,524 | 0,758 | 0,975 | **0,975** [0,958–0,989] |
 | Iliev, 10 kelas, 1.751 crop | uji terkunci (xsrc) | 0,803 | 0,755 | 0,882 | **0,885** [0,864–0,908] |
 | Shubha, 3 kelas dikenal, 300 crop | uji segar (konfirmasi awal) | 0,356 | 0,889 | 0,972 | **0,956** [0,924–0,983] |
 | Office-Home, 20 kelas | domain lain (tidak bias) | 0,865 | 0,761 | 0,870 | 0,864 |
 
-- Purity BDC **0,992**, ARI **1,00** antara partisi final K=16 dan pengulangan yang memilih K=16, NMI objek 0,859.
-- **CMRE setara INLP tanpa merancang proksi gaya apa pun.** Uji bootstrap berpasangan (2.000 ulangan) menunjukkan selisih
-  terhadap INLP tidak signifikan, sedangkan selisih terhadap fusi mentah dan DINOv3 saja signifikan (p < 0,001) pada ketiga set.
+- Kebocoran sumber turun dari 0,103 menjadi 0,016, NMI objek eksternal naik dari 0,789 menjadi 0,859, dan AMI pada 2.329
+  citra BDC berlabel mencapai 0,917. Spectral pada K = 16 menghasilkan partisi identik pada 100 seed.
+- **CMRE menyamai INLP dengan style proxy rancangan peneliti, tanpa memakai proxy.** Dalam 2.000 bootstrap berpasangan,
+  selisih terhadap INLP tidak signifikan, sedangkan CMRE melampaui raw fusion dan DINOv3 saja pada ketiga set (p < 0,001).
 - INLP di atas memakai style proxy yang dirancang setelah bias resolusi dan latar diketahui. Dengan automatic proxy
   (3 cluster K-Means pada statistik gaya AdaIN), INLP hanya mencapai xsrc 0,733 pada fusion SigLIP2 + DINOv3, sedangkan CMRE 0,951.
 - GMM, K-Means, DECMCV, dan TURTLE mencapai NMI objek eksternal lebih tinggi dari Spectral (0,948, 0,908, 0,894, 0,882 vs 0,859),
   tetapi xsrc keempatnya lebih rendah (0,79–0,95). Spectral dipilih karena xsrc adalah kriteria utama.
 - Pada Office-Home, yang fiturnya memang tidak bias, CMRE tidak menambah kinerja tetapi juga tidak merusak.
 
-### Deteksi kategori di luar cakupan (OOD kNN)
+### Pendeteksian perangkat di luar kategori (OOD)
 
 | Set | AUROC | Catatan |
 |---|---|---|
@@ -84,7 +86,7 @@ Contoh: AC 97%, kulkas 83%, setrika/kipas/lampu LED/dispenser 100% ditandai "tid
 Bangladesh. Alarm palsu pada kelas yang dikenal: Kaan 3,0%, Bangladesh 13,1%. Foto lapangan GIZ yang ditandai (44,5%)
 didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di data BDC.
 
-### 16 kelompok yang ditemukan
+### Penafsiran cluster (K = 16)
 
 | C | Isi | n | Kategori WEEE / B3 | | C | Isi | n | Kategori WEEE / B3 |
 |---|---|---|---|---|---|---|---|---|
@@ -97,7 +99,7 @@ didominasi AC, kulkas, dan kompresor, yaitu kategori WEEE 1 yang tidak ada di da
 | 6 | Mesin cuci bukaan atas | 115 | 4 (besar) | | 14 | Ponsel | 366 | 6 (TI kecil) |
 | 7 | TV/monitor layar datar | 263 | 2 (layar) | | 15 | PCB dan tumpukan campuran | 640 | komponen |
 
-- 15 dari 16 kelompok berisi ≥ 90% satu label BDC.
+- 15 dari 16 kelompok berisi ≥ 90% satu label BDC. Dua belas dari 16 kelompok mencapai Jaccard subsampling sedikitnya 0,85.
 - Kelompok **laptop (C9)** tidak tercantum pada label panitia (berkasnya berlabel "keyboard"). Temuan ini tervalidasi di Iliev:
   96,7% foto laptop masuk ke C9.
 - Uji permutasi WEEE: kategori EU-6 crop Iliev yang dikenali cocok dengan kategori grup kelompoknya pada 79% kasus,
@@ -174,7 +176,7 @@ Buka `http://localhost:8765`. Halaman harus dibuka lewat server, bukan langsung 
 | Tahap | Isi |
 |---|---|
 | `--stage all` | ekstraksi fitur 17 representasi (GPU) + audit bias sumber |
-| `--stage final2` | pembanding adil (INLP, LEACE, fusi mentah), kontrol data MetaCLIP vs Web-DINO |
+| `--stage final2` | pembanding adil (INLP, LEACE, raw fusion), kontrol data MetaCLIP vs Web-DINO |
 | --stage scmax lalu --stage scmax_seeds | audit awal 9 seed; median K = 16 |
 | `--stage final4` | partisi final → `/out/final_v4` |
 | `--stage fix`, `--stage fix2` | baseline, probe, sapuan r/K/tetangga, OOD kNN, Jaccard |
@@ -209,7 +211,7 @@ Model: [SigLIP2-So400m](https://huggingface.co/google/siglip2-so400m-patch16-naf
 
 ## Kepatuhan aturan lomba
 
-- Model hanya menerima citra. Menara teks model visi-bahasa tidak pernah dipanggil.
+- Model hanya menerima citra. Text encoder model vision-language tidak pernah dipanggil.
 - Label nama berkas BDC dan label set eksternal hanya dipakai untuk evaluasi setelah clustering.
 - 188 citra dari data uji dipilih dengan pengklasifikasi citra tim sendiri (hanya prediksi). Menjalankan ulang tanpa citra
   tersebut memberi hasil yang sama (xsrc 0,975).
@@ -223,7 +225,8 @@ Audit ulang dengan pengaturan seed yang sama seperti kode penulis menjalankan SC
 
 1. BDC adalah set pengembangan, sehingga angka BDC bersifat optimistis. Bukti generalisasi berasal dari Iliev dan Shubha,
    dan Shubha masih kecil (300 crop).
-2. CMRE setara INLP, bukan lebih unggul. Manfaatnya bersyarat: tidak ada kenaikan pada data yang tidak bias (Office-Home),
+2. CMRE menyamai INLP dengan style proxy rancangan peneliti dan melampaui INLP dengan automatic proxy, tetapi EPO lebih tinggi
+   pada Iliev (0,928 berbanding 0,885). Manfaatnya bersyarat: tidak ada kenaikan pada data yang tidak bias (Office-Home),
    dan acuannya harus model *self-supervised* berskala besar.
 3. Audit ulang 100 seed memilih K=13-21 (median 16,5; modus 17); K=16 hanya terpilih pada 20/100 run. Pada GPU lain, seed yang sama dapat memilih K berbeda.
 4. Deteksi OOD masih memakai ambang global, sehingga 13% foto objek berlatar beragam dari kelas yang dikenal ikut ditandai.
